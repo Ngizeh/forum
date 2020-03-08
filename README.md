@@ -42,3 +42,5 @@ Finally
 
 - Copy `.env.example` to `.env` and fill your values 
 (`php artisan key:generate`, configure your database and run `php artisan migrate`)
+
+Serve your Application on localhost :)

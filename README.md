@@ -14,7 +14,7 @@ Installation : Clone the Repository
 Navigate to the project folder
 
 ```
- cd path/to/your/project
+ cd path/to/your/project   
 ```
 
 On the project folder run the following command on the terminal

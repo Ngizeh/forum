@@ -44,3 +44,5 @@ Finally
 (`php artisan key:generate`, configure your database and run `php artisan migrate`)
 
 Serve your Application on localhost :)
+
+Fork and contribute...

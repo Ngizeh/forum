@@ -25,17 +25,18 @@ On the project folder run the following command on the terminal
 
 Install the project dependancies
 
- ```
+ 
+```
   npm install && npm run dev
- ```
+```
 
  or 
 
  If you have yarn installed
 
- ```
-  yarn install && yarn run dev
- ```
+```
+ yarn install && yarn run dev
+```
 
 Finally
 

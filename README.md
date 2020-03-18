@@ -11,7 +11,8 @@ Installation : Clone the Repository
  git clone https://Ngizeh@bitbucket.org/Ngizeh/forum.git
 ```
 
-Make sure you have redis server installed in your machine. If you don't, paste the following on terminal
+Make sure you have redis server installed in your machine. 
+If you don't, paste the following on terminal
 
 ```
   apt-get install redis-server

@@ -11,6 +11,12 @@ Installation : Clone the Repository
  git clone https://Ngizeh@bitbucket.org/Ngizeh/forum.git
 ```
 
+Make sure you have redis server installed in your machine.
+
+```
+  apt-get install redis-server
+```
+
 Navigate to the project folder
 
 ```
@@ -39,12 +45,6 @@ Install the project dependancies
 ```
 
 Finally
-
-### Make sure you have redis server installed in your machine.
-
-```
-  apt-get install redis-server
-```
 
 - Copy `.env.example` to `.env` and fill your values 
 (`php artisan key:generate`, configure your database and run `php artisan migrate`)

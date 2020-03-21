@@ -1,18 +1,14 @@
 <?php
 
-
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 
 Route::get('/', 'ThreadsController@index');
 
-
 Auth::routes();
 
-
 Route::get('/home', 'HomeController@index')->name('home');
-
-
 
 Route::get('/threads', 'ThreadsController@index')->name('threads');
 Route::get('/threads/create', 'ThreadsController@create');
@@ -22,8 +18,11 @@ Route::post('/threads', 'ThreadsController@store')->middleware('confirm-email');
 Route::get('/threads/{channel}/{thread}/replies', 'RepliesController@index');
 Route::post('/threads/{channel}/{thread}/replies', 'RepliesController@store');
 
+Route::post('/lock-thread/{thread}', 'LockThreadController@store')->name('locked-thread.store')->middleware('admin');
+Route::delete('/lock-thread/{thread}', 'LockThreadController@destroy')->name('locked-thread.destroy')->middleware('admin');
+
 Route::patch('/replies/{reply}', 'RepliesController@update');
-Route::delete('/replies/{reply}', 'RepliesController@destroy');
+Route::delete('/replies/{reply}', 'RepliesController@destroy')->name('reply.destroy');
 Route::get('/threads/{channel}', 'ThreadsController@index');
 
 Route::post('/threads/{channel}/{thread}/subscriptions', 'ThreadSubscriptionController@store')->middleware('auth');

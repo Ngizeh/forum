@@ -30,7 +30,7 @@ On the project folder run the following command on the terminal
  composer install
 ```
 
-Install the project dependancies
+Install the project dependencies
 
  
 ```

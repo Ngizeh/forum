@@ -4,6 +4,7 @@ namespace App;
 
 use App\RecordActivity;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Gate;
 
 class Activity extends Model
 {
@@ -25,4 +26,6 @@ class Activity extends Model
                         return $activity->created_at->format('Y-m-d');
                     });
     }
+
+
 }

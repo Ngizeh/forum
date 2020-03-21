@@ -29,3 +29,9 @@ $factory->state(App\User::class, 'unconfirmed', function(){
         'confirmed' => false
     ];
 });
+
+$factory->state(App\User::class, 'admin', function(){
+    return [
+        'name' => 'JohnDoe'
+    ];
+});

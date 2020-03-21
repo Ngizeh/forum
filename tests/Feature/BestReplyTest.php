@@ -6,7 +6,6 @@ use App\Reply;
 use App\Thread;
 use App\User;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class BestReplyTest extends TestCase
@@ -42,5 +41,20 @@ class BestReplyTest extends TestCase
 
        $this->assertFalse($replies[1]->fresh()->isBest());
 
+    }
+
+    /** @test **/
+    public function if_the_best_reply_is_deleted_the_thread_reply_should_reflect_that()
+    {
+
+        $this->be(factory(User::class)->create());
+
+        $reply = factory(Reply::class)->create(['user_id' => auth()->id()]);
+
+        $reply->thread->markBestReply($reply);
+
+        $this->deleteJson(route('reply.destroy', $reply));
+
+        $this->assertNull($reply->thread->fresh()->best_reply_id);
     }
 }

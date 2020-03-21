@@ -1,35 +1,46 @@
 <template>
 	<div :id="'data-'+id">
 		<div class="card my-4">
-			<div class="card-header">
+			<div class="card-header" :class="isBest ? 'bg-blue': ''">
 				<div class="d-flex justify-content-between">
 					<p>
-                        <a :href="'/profiles/' + data.owner.name" v-text="data.owner.name"> </a> said
+                        <a :href="'/profiles/' + reply.owner.name" v-text="reply.owner.name"> </a> said
 						<span v-text="ago"></span>...
 					</p>
-					<div v-if="signIn">
-						<favorite :data="data"></favorite>
+					<div v-if="signedIn">
+						<favorite :reply="reply"></favorite>
 					</div>
 				</div>
 			</div>
 			<div class="card-body">
 				<div class="from-group" v-if="editing">
                     <form @submit="update">
-                        <textarea cols="30" rows="2" class="form-control mb-4" v-model="data.body" @keydown.enter="update" required></textarea>
+                        <textarea cols="30" rows="2" class="form-control mb-4" v-model="reply.body"
+                                  @keydown.enter="update" required></textarea>
                         <button class="btn btn-primary btn-sm">Update</button>
                         <button class="btn btn-link btn-sm" @click="editing = false" type="button">Cancel</button>
                     </form>
 				</div>
 
-				<div v-else="show" v-html="data.body"></div>
+				<div v-else="show" v-html="reply.body"></div>
 
 			</div>
-            <div class="card-header d-flex">
-			    <div v-if="canUpdate">
+            <div class="card-header d-flex" v-if="authorize('owns', reply) || authorize('owns', reply.thread)">
+			    <div v-if="authorize('owns', reply)">
                     <button class="btn btn-secondary btn-sm mr-4" @click="editing = true">Edit</button>
                     <button class="btn btn-danger btn-sm mr-4" @click="destroy">Delete</button>
                 </div>
-                <button class="btn btn-outline-primary btn-sm mr-4 ml-auto" @click="markBestRepy">Best Reply?</button>
+                <div class="mr-4 ml-auto">
+                    <button
+                        v-if="authorize('owns', reply.thread) && !isBest"
+                        class="btn btn-outline-primary btn-sm"
+                        @click="markBestRepy"
+                    >Best Reply?
+                    </button>
+                    <p v-if="isBest" class="text-sm">
+                        This is the best Reply
+                    </p>
+                </div>
 			</div>
 		</div>
 	</div>
@@ -38,33 +49,33 @@
 	import Favorite from '../components/Favorite.vue';
 	import moment from 'moment';
 	export default {
-		props : ['data'],
+		props : ['reply'],
 		components : { Favorite },
 		data() {
 			return {
 				editing : false,
-				id : this.data.id,
-				body : this.data.body,
+				id : this.reply.id,
+				body : this.reply.body,
+                isBest : this.reply.isBest,
                 errors : [],
                 oldBody : ''
 			}
 		},
 		computed : {
-			signIn(){
-				return window.App.singedIn;
-			},
-			canUpdate(){
-				return this.authorize(user => this.data.user_id === user.id);
-			},
 			ago(){
-				return moment(this.data.created_at).fromNow();
+				return moment(this.reply.created_at).fromNow();
 			}
 		},
-		methods : {
+        created() {
+		    window.events.$on('best-reply-selected', id => {
+		        this.isBest = (id === this.id);
+            });
+        },
+        methods : {
 			update(){
 			    this.oldBody = this.body;
-				axios.patch('/replies/' + this.data.id,{
-					body : this.data.body
+				axios.patch('/replies/' + this.id,{
+					body : this.reply.body
 				}).catch(error => {
                     flash(error.response.data.message,'danger');
                 });
@@ -73,13 +84,20 @@
 
 			},
 			destroy(){
-				axios.delete('/replies/' + this.data.id);
-				this.$emit('deleted', this.data.id);
+				axios.delete('/replies/' + this.id);
+				this.$emit('deleted', this.id);
                 flash('Reply was successful deleted', 'info');
 			},
             markBestRepy(){
-			    axios.post('/replies/' + this.data.id/+ '/best')
+			    axios.post('/replies/' + this.id + '/best');
+			    window.events.$emit('best-reply-selected', this.id)
             }
 		},
     }
 </script>
+
+<style>
+    .bg-blue {
+      background-color : lightgreen
+    }
+</style>

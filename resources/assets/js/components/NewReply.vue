@@ -1,6 +1,6 @@
 <template>
    <div class="mt-4">
-		<div v-if="singedIn">
+		<div v-if="signedIn">
 			<div class="form-group">
 				<textarea name="body" id="body" cols="30" rows="5" class="form-control"
                           placeholder="Have something to say?"

@@ -2,14 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ReplyRequest;
 use App\Notifications\YouWereMentioned;
 use App\Reply;
 use App\Thread;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                use App\Rules\SpamFree;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                use App\Http\Requests\ReplyRequest;
-use App\User;
 use Illuminate\Http\Request;
-
 
 class RepliesController extends Controller
 {
@@ -25,6 +22,9 @@ class RepliesController extends Controller
 
     public function store($channel, Thread $thread, ReplyRequest $request)
     {
+        if($thread->locked){
+            return response('Thread is locked', 422);
+        }
         return $thread->addReply([
             'body' => $request->body,
             'user_id' => auth()->id()

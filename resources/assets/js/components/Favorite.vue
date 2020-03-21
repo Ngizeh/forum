@@ -9,12 +9,12 @@
 
 		name: 'Favorite',
 
-		props : ['data'],
+		props : ['reply'],
 
 		data () {
 			return {
-				count : this.data.favoritedCount,
-				active : this.data.isFavorited,
+				count : this.reply.favoritedCount,
+				active : this.reply.isFavorited,
 			}
 		},
 		computed : {
@@ -22,7 +22,7 @@
 				return this.active ? 'btn-danger' : 'btn-link';
 			},
 			endpoint(){
-				return '/replies/'+ this.data.id +'/favorites';
+				return '/replies/'+ this.reply.id +'/favorites';
 			},
 			title(){
 				return this.active ? 'You can un favorite' : 'You can favorite a reply'

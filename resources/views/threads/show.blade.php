@@ -3,7 +3,7 @@
     <link href="{{ asset('css/vendor/jquery.atwho.css') }}" rel="stylesheet">
 @endsection
 @section('content')
-<thread-view inline-template :initial-reply-count="{{ $thread->reply_count }}">
+<thread-view inline-template :thread="{{ $thread }}">
 	<div class="container">
 		<div class="row mt-4">
 			<div class="col-md-8">
@@ -44,8 +44,13 @@
 							<span v-text="repliesCount" class="pr-1"></span>
 							{{ str_plural('reply', $thread->replies_count) }}
 						</p>
-						<p>
-							<subscribe-button :active="{{ json_encode($thread->isSubscribedTo) }}"></subscribe-button>
+						<p class="d-flex justify-content-between">
+							<subscribe-button :active="@json($thread->isSubscribedTo)"></subscribe-button>
+							<button class="btn"
+							:class="locked ? 'btn-link' : 'btn-danger'
+							"v-if="authorize('isAdmin')"
+							@click="toggleLock"
+							v-text="locked ? 'Unlock Thread' : 'Lock'"></button>
 						</p>
 					</div>
 				</div>

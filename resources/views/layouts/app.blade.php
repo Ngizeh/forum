@@ -21,7 +21,11 @@
 	<link href="{{ asset('css/app.css') }}" rel="stylesheet">
     @yield('header')
 	<script>
-		window.App = {!! json_encode(['singedIn' => auth()->check(),'user' => auth()->user()]) !!};
+         window.App =  @json([
+            'csrfToken' => csrf_token(),
+            'user' => Auth::user(),
+            'signedIn' => Auth::check()
+        ]);
 	</script>
 </head>
 <body>

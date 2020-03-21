@@ -29,7 +29,7 @@ export default {
   		 'subscribe for notification';
   	},
   	signedIn() {
-  		return window.App.singedIn;
+  		return window.App.signedIn;
   	}
   },
   methods : {

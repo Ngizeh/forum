@@ -37,4 +37,17 @@ class TrendingThreadsTest extends TestCase
 
        $this->assertEquals($thread->path(), $trending[0]->path);
    }
+
+
+   /** @test **/
+   public function it_can_decrement_a_threads_score_each_time_it_is_deleted()
+   {
+       $this->assertEmpty($this->trending->get());
+
+       $thread = factory(Thread::class)->create();
+
+       $this->delete($thread->path());
+
+       $this->assertCount(0, $trending  = $this->trending->get());
+   }
 }

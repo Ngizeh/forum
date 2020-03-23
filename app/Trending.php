@@ -21,6 +21,14 @@ class Trending
         ]));
     }
 
+    public function pop($thread)
+    {
+         Redis::ZREM($this->cacheKey(), json_encode([
+            'title' => $thread->title,
+            'path' => $thread->path()
+        ]));
+    }
+
     public function cacheKey()
     {
          return app()->environment('testing') ? 'testing_trending_threads' : 'trending_threads';

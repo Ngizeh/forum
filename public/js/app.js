@@ -67360,22 +67360,45 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  components: { Replies: __WEBPACK_IMPORTED_MODULE_0__components_Replies_vue___default.a, SubscribeButton: __WEBPACK_IMPORTED_MODULE_1__components_SubscribeButton_vue___default.a },
-  props: ['thread'],
-  data: function data() {
-    return {
-      repliesCount: this.thread.reply_count,
-      locked: this.thread.locked
-    };
-  },
+    components: { Replies: __WEBPACK_IMPORTED_MODULE_0__components_Replies_vue___default.a, SubscribeButton: __WEBPACK_IMPORTED_MODULE_1__components_SubscribeButton_vue___default.a },
+    props: ['thread'],
+    data: function data() {
+        return {
+            repliesCount: this.thread.reply_count,
+            locked: this.thread.locked,
+            title: this.thread.title,
+            body: this.thread.body,
+            form: {},
+            editing: false
+        };
+    },
+    created: function created() {
+        this.resetForm();
+    },
 
-  methods: {
-    toggleLock: function toggleLock() {
-      axios[this.locked ? 'delete' : 'post']('/lock-thread/' + this.thread.slug);
+    methods: {
+        toggleLock: function toggleLock() {
+            axios[this.locked ? 'delete' : 'post']('/lock-thread/' + this.thread.slug);
+            this.locked = !this.locked;
+        },
+        resetForm: function resetForm() {
+            this.editing = false;
+            this.form.title = this.thread.title;
+            this.form.body = this.thread.body;
+        },
+        updateForm: function updateForm() {
+            var _this = this;
 
-      this.locked = !this.locked;
+            axios.patch('/threads/' + this.thread.channel.slug + '/' + this.thread.slug, this.form).catch(function () {
+                flash(error.response.data.message, 'danger');
+            }).then(function () {
+                flash('Your thread was updated successfully');
+                _this.title = _this.form.title;
+                _this.body = _this.form.body;
+                _this.editing = false;
+            });
+        }
     }
-  }
 });
 
 /***/ }),

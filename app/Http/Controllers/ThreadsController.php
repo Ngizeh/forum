@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Thread;
 use App\Channel;
-use App\Trending;
-use Illuminate\Http\Request;
 use App\Filters\ThreadFilters;
+use App\Rules\Recaptcha;
+use App\Thread;
+use App\Trending;
+use Exception;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redis;
 
 class ThreadsController extends Controller
@@ -36,12 +38,13 @@ class ThreadsController extends Controller
         return view('threads.create');
     }
 
-    public function store(Request $request)
+    public function store(Recaptcha $recaptcha)
     {
-        $request->validate([
+        request()->validate([
             'title' => 'required|spamfree',
             'body' => 'required|spamfree',
-            'channel_id' => 'required|exists:channels,id'
+            'channel_id' => 'required|exists:channels,id',
+            'g-recaptcha-response' => [$recaptcha]
         ]);
 
         $thread = Thread::create([
@@ -88,17 +91,27 @@ class ThreadsController extends Controller
 
     public function update($channel, Thread $thread)
     {
+        $this->authorize('update', $thread);
 
+        $data = request()->validate([
+            'title' => 'required',
+            'body' => 'required'
+        ]);
+
+        $thread->update($data);
     }
 
-
-    public function destroy($channel, Thread $thread)
+    public function destroy($channel, Thread $thread, Trending $trending)
     {
         $this->authorize('update', $thread);
 
         $thread->delete();
 
-        return redirect('threads');
+        $trending->pop($thread);
+
+        $thread->resetVisits();
+
+        return redirect('/threads');
     }
 
     public function getThreads($channel, $filters)

@@ -13,16 +13,20 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/threads', 'ThreadsController@index')->name('threads');
 Route::get('/threads/create', 'ThreadsController@create');
 Route::get('/threads/{channel}/{thread}', 'ThreadsController@show');
-Route::delete('/threads/{channel}/{thread}', 'ThreadsController@destroy');
-Route::post('/threads', 'ThreadsController@store')->middleware('confirm-email');
+Route::post('/threads', 'ThreadsController@store')->middleware('confirm-email')->name('threads');
+Route::patch('/threads/{channel}/{thread}', 'ThreadsController@update');
+Route::delete('/threads/{channel}/{thread}', 'ThreadsController@destroy')->name('thread.destroy');
+
 Route::get('/threads/{channel}/{thread}/replies', 'RepliesController@index');
 Route::post('/threads/{channel}/{thread}/replies', 'RepliesController@store');
+Route::patch('/replies/{reply}', 'RepliesController@update');
+Route::delete('/replies/{reply}', 'RepliesController@destroy')->name('reply.destroy');
 
 Route::post('/lock-thread/{thread}', 'LockThreadController@store')->name('locked-thread.store')->middleware('admin');
 Route::delete('/lock-thread/{thread}', 'LockThreadController@destroy')->name('locked-thread.destroy')->middleware('admin');
 
-Route::patch('/replies/{reply}', 'RepliesController@update');
-Route::delete('/replies/{reply}', 'RepliesController@destroy')->name('reply.destroy');
+
+//Filtered by channel
 Route::get('/threads/{channel}', 'ThreadsController@index');
 
 Route::post('/threads/{channel}/{thread}/subscriptions', 'ThreadSubscriptionController@store')->middleware('auth');

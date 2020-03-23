@@ -22,7 +22,7 @@ class ReadThreadTest extends TestCase
     /** @test **/
     public function a_user_can_view_all_threads()
     {
-        $response = $this->get('/threads');
+        $response = $this->get(route('threads'));
 
         $response->assertSee($this->thread->title);
     }

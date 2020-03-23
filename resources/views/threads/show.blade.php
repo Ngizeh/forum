@@ -3,7 +3,7 @@
     <link href="{{ asset('css/vendor/jquery.atwho.css') }}" rel="stylesheet">
 @endsection
 @section('content')
-<thread-view inline-template :thread="{{ $thread }}">
+<thread-view inline-template :thread="{{ $thread }}" v-cloak>
 	<div class="container">
 		<div class="row mt-4">
 			<div class="col-md-8">
@@ -14,26 +14,7 @@
 						@endforeach
 					</div>
 				@endif
-				<div class="card mb-4">
-					<div class="card-header d-flex justify-content-between">
-						<span>
-                            <img src="{{ asset($thread->creator->avatar_path) }}" alt="{{ $thread->creator->name }}"
-                                 width="30" height="30" class="mr-1 rounded">
-                            <a href="/profile/{{ $thread->creator->name }}">{{ $thread->creator->name }}</a> posted:
-							{{ $thread->title }}
-						</span>
-						@can('update', $thread)
-							<form action="/threads/{{ $thread->channel->id}}/{{$thread->id}}" method="post">
-								@csrf
-								@method('delete')
-								<button class="btn btn-link" type="submit">Delete thread</button>
-							</form>
-						@endcan
-					</div>
-					<div class="card-body">
-						{{ $thread->body }}
-					</div>
-				</div>
+				@include('threads.question')
 			</div>
 			<div class="col-md-4">
 				<div class="card">

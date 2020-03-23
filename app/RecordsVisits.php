@@ -11,7 +11,9 @@ trait RecordsVisits
 
     public function resetVisits()
     {
-        return Redis::del($this->visitCacheKey());
+        Redis::del($this->visitCacheKey());
+
+        return $this;
     }
 
     public function recordVisits()

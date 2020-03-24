@@ -54,19 +54,19 @@ Finally
 - Get your your mailtrap config setting at mailtrap
 
 ```
-MAIL_DRIVER=smtp
-MAIL_HOST=smtp.mailtrap.io
-MAIL_PORT=2525
-MAIL_USERNAME=Your-username-here
-MAIL_PASSWORD=Your-password-here
-MAIL_ENCRYPTION=null
+    MAIL_DRIVER=smtp
+    MAIL_HOST=smtp.mailtrap.io
+    MAIL_PORT=2525
+    MAIL_USERNAME=Your-username-here
+    MAIL_PASSWORD=Your-password-here
+    MAIL_ENCRYPTION=null
 ```
 
 - Get your G-RECAPTCHA config setting here https://www.google.com/recaptcha/admin/site/350420451/settings
 
 ```
-RECAPTCHA_KEY=Your-key-here
-RECAPTCHA_SECRET=Your-secret-here
+    RECAPTCHA_KEY=Your-key-here
+    RECAPTCHA_SECRET=Your-secret-here
 ```
 
 Serve your Application on localhost :)

@@ -15,7 +15,7 @@ Make sure you have redis server installed in your machine.
 If you don't, paste the following on terminal
 
 ```
-  apt-get install redis-server
+  sudo apt-get install redis-server
 ```
 
 Navigate to the project folder
@@ -69,6 +69,10 @@ Finally
 
 ```
 
-Serve your Application on localhost :)
+Serve your Application on localhost:) http://localhost:8000
+- If you don't have valet installed in your machine. Use this command on your terminal
+```
+  php artisan serve
+```
 
 Fork and contribute...

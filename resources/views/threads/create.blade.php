@@ -37,7 +37,8 @@
                     </div>
                     <div class="form-group">
                         <label for="body">Body</label>
-                        <textarea type="text" class="form-control" name="body" placeholder="Thread body" cols="30" rows="8">{{ old('body') }}</textarea>
+                        <wysiwyg name="body"></wysiwyg>
+                       {{--  <textarea type="text" class="form-control" name="body" placeholder="Thread body" cols="30" rows="8">{{ old('body') }}</textarea> --}}
                     </div>
                      <div class="g-recaptcha" data-sitekey="{{ config('services.recaptcha.public') }}"></div>
                      <br/>

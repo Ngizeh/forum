@@ -13,7 +13,7 @@
         </form>
     </div>
     <div class="card-body">
-        <span v-text="body"></span>
+        <span v-html="body"></span>
     </div>
     <div class="card-footer"  v-if="authorize('owns', thread)">
         <button class="btn btn-sm btn-secondary" @click="editing = true">Edit</button>
@@ -30,7 +30,7 @@
     <div class="card-body">
         <div class="form-group">
              <label for="title">Body</label>
-            <textarea cols="10" class="form-control" rows="5" v-model="form.body"></textarea>
+             <wysiwyg v-model="form.body"></wysiwyg>
         </div>
     </div>
     <div class="card-footer d-flex justify-content-between">

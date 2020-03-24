@@ -15,8 +15,7 @@
 			<div class="card-body">
 				<div class="from-group" v-if="editing">
                     <form @submit="update">
-                        <textarea cols="30" rows="2" class="form-control mb-4" v-model="reply.body"
-                                  @keydown.enter="update" required></textarea>
+                        <wysiwyg v-model="reply.body" value="Reply.body" class="py-2"></wysiwyg>
                         <button class="btn btn-primary btn-sm">Update</button>
                         <button class="btn btn-link btn-sm" @click="editing = false" type="button">Cancel</button>
                     </form>
@@ -47,10 +46,11 @@
 </template>
 <script>
 	import Favorite from '../components/Favorite.vue';
+    import Wysiwyg from '../components/Wysiwyg.vue';
 	import moment from 'moment';
 	export default {
 		props : ['reply'],
-		components : { Favorite },
+		components : { Favorite, Wysiwyg },
 		data() {
 			return {
 				editing : false,

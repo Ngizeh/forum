@@ -82,4 +82,12 @@ public function body_is_required_for_the_reply()
 
        $this->assertTrue($reply->fresh()->isBest());
     }
+
+      /** @test **/
+    public function body_attribute_of_reply_is_sanitized_automatically()
+    {
+        $reply = factory(Reply::class)->make(['body' => '<script alert("bad")></script><p>This is good</p']);
+
+        $this->assertEquals('<p>This is good</p>', $reply->body);
+    }
 }

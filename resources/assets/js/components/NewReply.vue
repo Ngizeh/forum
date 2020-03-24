@@ -1,11 +1,9 @@
 <template>
    <div class="mt-4">
 		<div v-if="signedIn">
-			<div class="form-group">
-				<textarea name="body" id="body" cols="30" rows="5" class="form-control"
-                          placeholder="Have something to say?"
-                          v-model="body">
-                </textarea>
+      <h5 class="py-3">Participate in the forum</h5>
+			<div class="form-group py-2">
+        <wysiwyg v-model="body" value="body" placeholder="Have something to say!" :shouldClear="completed"></wysiwyg>
 			</div>
 			<div class="form-group">
 				<button class="btn btn-primary" type="submit" @click="addReply">Post</button>
@@ -30,7 +28,8 @@ export default {
     return {
 			body : '',
 			errors : [],
-			errorsFound : false
+			errorsFound : false,
+            completed : false,
 		}
   },
   computed : {
@@ -61,7 +60,7 @@ export default {
   	    let app = this;
   		axios.post(location.pathname + '/replies', {body : this.body})
   		     .then(response => {
-  		     	this.body = '';
+  		     	this.completed = true;
   		     	this.errorsFound = false;
                  this.$emit('created', response.data);
                  flash('Your reply has been posted');

@@ -5,7 +5,7 @@
 ![](/public/images/Preview.png)
 
 
-Installation : Clone the Repository
+## Installation : Clone the Repository
 
 ```
  git clone https://Ngizeh@bitbucket.org/Ngizeh/forum.git
@@ -46,8 +46,6 @@ Install the project dependencies
 ```
 
 
-Finally
-
 - Copy `.env.example` to `.env` and fill your values
 (`php artisan key:generate`, configure your database and run `php artisan migrate`)
 
@@ -69,7 +67,8 @@ Finally
 
 ```
 
-Serve your Application on localhost:) http://localhost:8000
+
+Finally,serve your Application on localhost:) http://localhost:8000
 - If you don't have valet installed in your machine. Use this command on your terminal
 ```
   php artisan serve

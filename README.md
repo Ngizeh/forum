@@ -60,7 +60,7 @@ Finally
 
 ```
 
-- Get your G-RECAPTCHA settings here https://www.google.com/recaptcha/admin/site/350420451/settings in your .env file
+- Get your G-RECAPTCHA settings here https://www.google.com/recaptcha/intro/v3.html in your .env file
 
 ```
 

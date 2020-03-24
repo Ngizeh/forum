@@ -51,22 +51,22 @@ Finally
 - Copy `.env.example` to `.env` and fill your values
 (`php artisan key:generate`, configure your database and run `php artisan migrate`)
 
-- Get your your mailtrap config setting at mailtrap
+- Get your your mailtrap config setting at mailtrap in .env file
 
 ```
-    MAIL_DRIVER=smtp
-    MAIL_HOST=smtp.mailtrap.io
-    MAIL_PORT=2525
+
     MAIL_USERNAME=Your-username-here
     MAIL_PASSWORD=Your-password-here
-    MAIL_ENCRYPTION=null
-```
-
-- Get your G-RECAPTCHA config setting here https://www.google.com/recaptcha/admin/site/350420451/settings
 
 ```
+
+- Get your G-RECAPTCHA settings here https://www.google.com/recaptcha/admin/site/350420451/settings in your .env file
+
+```
+
     RECAPTCHA_KEY=Your-key-here
     RECAPTCHA_SECRET=Your-secret-here
+
 ```
 
 Serve your Application on localhost :)

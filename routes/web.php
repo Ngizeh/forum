@@ -11,7 +11,7 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/threads', 'ThreadsController@index')->name('threads');
-Route::get('/threads/create', 'ThreadsController@create');
+Route::get('/threads/create', 'ThreadsController@create')->middleware('confirm-email');
 Route::get('/threads/{channel}/{thread}', 'ThreadsController@show');
 Route::post('/threads', 'ThreadsController@store')->middleware('confirm-email')->name('threads');
 Route::patch('/threads/{channel}/{thread}', 'ThreadsController@update');

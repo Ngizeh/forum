@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Events\ThreadReceivedNewReply;
+use App\Reputation;
 use Illuminate\Database\Eloquent\Model;
 
 class Thread extends Model
@@ -28,10 +29,12 @@ class Thread extends Model
 
         static::deleting(function ($thread) {
             $thread->replies->each->delete();
+             Reputation::loose($thread->creator, Reputation::THREAD_CREATED);
         });
 
         static::created(function ($thread) {
             $thread->update(['slug' => $thread->title]);
+            Reputation::award($thread->creator, Reputation::THREAD_CREATED);
         });
     }
 
@@ -116,6 +119,7 @@ class Thread extends Model
     public function markBestReply(Reply $reply)
     {
         $this->update(['best_reply_id' => $reply->id]);
+        Reputation::award($reply->owner, Reputation::REPLY_MARKED_AS_BEST);
     }
 
     public function getBodyAttribute($body)

@@ -3,7 +3,7 @@
         <span>
             <img src="{{ asset($thread->creator->avatar_path) }}" alt="{{ $thread->creator->name }}"
             width="30" height="30" class="mr-1 rounded">
-            <a href="/profile/{{ $thread->creator->name }}">{{ $thread->creator->name }}</a> posted:
+            <a href="/profile/{{ $thread->creator->name }}">{{ $thread->creator->name }} ({{ $thread->creator->reputation }}XP)</a> posted:
             <span v-text="title"></span>
         </span>
         <form action="{{$thread->path()}}" method="post" v-if="authorize('owns', thread)">

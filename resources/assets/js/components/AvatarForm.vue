@@ -2,6 +2,7 @@
     <div>
         <h2 class="panel-header">
             <small class="text-muted" v-text="user.name"></small>
+            (<small class="text-muted" v-text="reputation"></small>)
         </h2>
         <div v-if="canUpdate">
             <img :src="avatar" alt="Profile Image" height="100" width="100" class="rounded mb-2">
@@ -29,6 +30,9 @@
             canUpdate(){
                 return this.authorize(user => user.id === this.user.id);
             },
+            reputation(){
+                return this.user.reputation + 'XP';
+            }
         },
         methods : {
             addPhoto(){

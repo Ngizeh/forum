@@ -20,6 +20,8 @@ class User extends Authenticatable
         'name', 'email', 'password','avatar_path', 'confirmed', 'confirmation_token'
     ];
 
+    protected $appends = [ 'isAdmin' ];
+
     /**
      * The attributes that should be hidden for arrays.
      *
@@ -45,7 +47,12 @@ class User extends Authenticatable
 
     public function isAdmin()
     {
-       return in_array($this->name, ['JohnDoe', 'JaneDoe']);
+        return in_array($this->name, ['JohnDoe', 'Maggie Githinji']);
+    }
+
+    public function getIsAdminAttribute()
+    {
+        return $this->isAdmin();
     }
 
     public function getAvatarPathAttribute($avatar)

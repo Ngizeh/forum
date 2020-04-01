@@ -15,9 +15,9 @@ class Administrator
      */
     public function handle($request, Closure $next)
     {
-        if(auth()->user() && auth()->user()->isAdmin()){
+        if(auth()->user() && auth()->user()->isAdmin) {
            return $next($request);
         }
-        abort(403, 'You do not permission to perform this operataon');
+        abort(403, 'You do not permission to perform this operation');
     }
 }

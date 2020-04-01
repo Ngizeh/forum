@@ -36,9 +36,9 @@ class RepliesController extends Controller
     {
         $this->authorize('update', $reply);
 
-        request()->validate(['body' => 'required|spamfree']);
+        $data = request()->validate(['body' => 'required|spamfree']);
 
-        $reply->update(request(['body']));
+        $reply->update($data);
     }
 
     public function destroy(Reply $reply)

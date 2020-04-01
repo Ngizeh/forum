@@ -48,6 +48,9 @@
 				</li>
 				@else
                 <user-notification></user-notification>
+				 @if (Auth::user()->isAdmin)
+                    <li><a href="/admin"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span></a></li>
+                  @endif
 
 				<li class="nav-item dropdown">
 					<a id="navbarDropdown" class="dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>

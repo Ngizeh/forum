@@ -32,6 +32,7 @@ $factory->state(App\User::class, 'unconfirmed', function(){
 
 $factory->state(App\User::class, 'admin', function(){
     return [
-        'name' => 'JohnDoe'
+        'name' => 'JohnDoe',
+        'isAdmin' => true
     ];
 });

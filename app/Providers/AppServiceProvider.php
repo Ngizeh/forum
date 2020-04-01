@@ -17,10 +17,14 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        // view()->composer('*', function ($view) {
+        //     $view->with('channels', Cache::rememberForever('channels', function () {
+        //         return Channel::all();
+        //     }));
+        // });
+
         view()->composer('*', function ($view) {
-            $view->with('channels', Cache::rememberForever('channels', function () {
-                return Channel::all();
-            }));
+            $view->with('channels', Channel::all());
         });
 
         Validator::extend('spamfree', 'App\Rules\SpamFree@passes');

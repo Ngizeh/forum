@@ -52,7 +52,7 @@ class ChannelAdministrationTest extends TestCase
     }
 
     /** @test **/
-    public function admin_can_delete_a_channel()
+    public function admin_can_mark_a_channel_archived()
     {
         $this->withoutExceptionHandling();
 
@@ -60,10 +60,23 @@ class ChannelAdministrationTest extends TestCase
 
         $channel = factory(Channel::class)->create(['name' => 'Javascript', 'slug' => 'javascript']);
 
-        $this->delete(route('admin.channels.destroy', $channel->id));
+        $this->patch(route('admin.archive', $channel->id));
 
-        $this->assertDatabaseMissing('channels', ['slug' => $channel->slug]);
-        $this->assertDatabaseMissing('channels', ['name' => $channel->name]);
+        $this->assertDatabaseHas('channels', ['archive' => true]);
+    }
+
+     /** @test **/
+    public function admin_can_mark_a_channel_unarchived()
+    {
+        $this->withoutExceptionHandling();
+
+        $this->signInAdmin();
+
+        $channel = factory(Channel::class)->create(['name' => 'Javascript', 'slug' => 'javascript', 'archive' => true]);
+
+        $this->patch(route('admin.unarchive', $channel->id));
+
+        $this->assertDatabaseHas('channels', ['archive' => false]);
     }
 
     /** @test **/

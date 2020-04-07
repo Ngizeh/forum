@@ -49,7 +49,7 @@
 				@else
                 <user-notification></user-notification>
 				 @if (Auth::user()->isAdmin)
-                    <li><a href="/admin"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span></a></li>
+                    <li class="mr-4" ><a href="/admin"><span class="fas fa-cog" aria-hidden="true"></span></a></li>
                   @endif
 
 				<li class="nav-item dropdown">

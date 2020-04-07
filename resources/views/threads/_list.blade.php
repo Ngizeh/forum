@@ -29,3 +29,6 @@
 @empty
     <h5>There's no activity at the moment</h5>
 @endforelse
+<p>
+    <a href="{{ url()->previous() }}">Back</a>
+</p>

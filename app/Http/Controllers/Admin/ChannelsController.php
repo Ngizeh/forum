@@ -11,7 +11,7 @@ class ChannelsController extends Controller
 {
 	public function index(Channel $channel)
 	{
-		$channels = Channel::latest('updated_at')->paginate(8);
+		$channels = Channel::latest('created_at')->withoutGlobalScope('active')->paginate(8);
 
 		  if (request()->wantsJson()) {
             return $channels;

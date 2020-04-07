@@ -22,4 +22,15 @@ class ChannelTest extends TestCase
 
    		$this->assertTrue($channel->threads->contains($thread));
    }
+
+   /** @test **/
+   public function channel_can_be_archived()
+   {
+        $channel = factory(Channel::class)->create();
+
+        $channel->archive();
+
+        $this->assertDatabaseHas('channels', ['archive' => true]);
+   }
+
 }

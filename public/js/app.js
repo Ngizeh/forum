@@ -67598,7 +67598,7 @@ exports = module.exports = __webpack_require__(3)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -67651,73 +67651,83 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['channels'],
-    name: 'ChannelView',
-    data: function data() {
-        return {
-            chans: this.channels,
-            edit: false,
-            endpoint: location.pathname,
-            dataSet: false,
-            items: []
-        };
-    },
-    created: function created() {
-        this.fetch();
-    },
+	props: ['channels'],
+	name: 'ChannelView',
+	data: function data() {
+		return {
+			chans: this.channels,
+			edit: false,
+			endpoint: location.pathname,
+			dataSet: false,
+			items: []
+		};
+	},
+	created: function created() {
+		this.fetch();
+	},
 
-    methods: {
-        fetch: function fetch(page) {
-            axios.get(this.url(page)).then(this.refresh);
-        },
-        url: function url(page) {
-            if (!page) {
-                var query = location.search.match(/page=(\d+)/);
-                page = query ? query[1] : 1;
-            }
-            return this.endpoint + '?page=' + page;
-        },
-        refresh: function refresh(_ref) {
-            var data = _ref.data;
+	methods: {
+		fetch: function fetch(page) {
+			axios.get(this.url(page)).then(this.refresh);
+			window.scrollTo(50, 50);
+		},
+		url: function url(page) {
+			if (!page) {
+				var query = location.search.match(/page=(\d+)/);
+				page = query ? query[1] : 1;
+			}
+			return this.endpoint + '?page=' + page;
+		},
+		refresh: function refresh(_ref) {
+			var data = _ref.data;
 
-            //dataset is the response data from Ajax
-            this.dataSet = data;
-            this.items = data.data;
-            window.scrollTo(50, 50);
-        },
-        removeChannel: function removeChannel(channelId, index) {
-            var channel = this.chans.find(function (channel) {
-                return channel.id === channelId;
-            });
-            axios.delete('/admin/channels/' + channel.id);
-            this.items.splice(index, 1);
-            flash('You have delete a channel', 'danger');
-        },
-        editChannel: function editChannel(channel) {
-            this.$set(channel, 'edit', true);
-            this.edit = true;
-        },
-        cancelEdit: function cancelEdit(channel) {
-            this.$set(channel, 'edit', false);
-            this.edit = false;
-        },
-        updateChannel: function updateChannel(channelId) {
-            var channel = this.items.find(function (channel) {
-                return channel.id === channelId;
-            });
-            axios.patch('/admin/channels/' + channel.id, {
-                name: channel.name,
-                description: channel.description
-            }).catch(function (error) {
-                flash(error.response.data.message, 'danger');
-            });
-            this.$set(channel, 'edit', false);
-            this.edit = false;
-            flash('Updated Channel');
-        }
-    }
+			//dataset is the response data from Ajax
+			this.dataSet = data;
+			this.items = data.data;
+		},
+		toggleChannel: function toggleChannel(channelId, index) {
+			var channel = this.chans.find(function (channel) {
+				return channel.id === channelId;
+			});
+			channel.archive ? this.archiveChannel(channel.id) : this.activeChannel(channel.id);
+		},
+		activeChannel: function activeChannel(channel) {
+			axios.patch('/admin/archive/' + channel).then(this.refresh);
+			flash('Activated Channel', 'primary');
+		},
+		archiveChannel: function archiveChannel(channel) {
+			axios.delete('/admin/archive/' + channel).then(this.refresh);
+			flash('Archived Channel', 'secondary');
+		},
+		editChannel: function editChannel(channel) {
+			this.$set(channel, 'edit', true);
+			this.edit = true;
+		},
+		cancelEdit: function cancelEdit(channel) {
+			this.$set(channel, 'edit', false);
+			this.edit = false;
+		},
+		updateChannel: function updateChannel(channelId) {
+			var channel = this.items.find(function (channel) {
+				return channel.id === channelId;
+			});
+			axios.patch('/admin/channels/' + channel.id, {
+				name: channel.name,
+				description: channel.description
+			}).catch(function (error) {
+				flash(error.response.data.message, 'danger');
+			});
+			this.$set(channel, 'edit', false);
+			this.edit = false;
+			flash('Updated Channel');
+		}
+	}
 });
 
 /***/ }),
@@ -67775,7 +67785,13 @@ var render = function() {
                       : _c(
                           "span",
                           { staticStyle: { "text-transform": "capitalize" } },
-                          [_vm._v(_vm._s(channel.name))]
+                          [
+                            _c(
+                              "a",
+                              { attrs: { href: "/threads/" + channel.name } },
+                              [_vm._v(" " + _vm._s(channel.name))]
+                            )
+                          ]
                         )
                   ]),
                   _vm._v(" "),
@@ -67836,19 +67852,23 @@ var render = function() {
                             [_vm._v("Edit")]
                           ),
                           _vm._v(" "),
-                          _c(
-                            "button",
-                            {
-                              staticClass: "btn btn-sm btn-danger",
-                              on: {
-                                click: function($event) {
-                                  $event.preventDefault()
-                                  return _vm.removeChannel(channel.id, index)
-                                }
-                              }
+                          _c("button", {
+                            staticClass: "btn btn-sm",
+                            class: [
+                              channel.archive ? "btn-secondary" : "btn-success"
+                            ],
+                            domProps: {
+                              textContent: _vm._s(
+                                channel.archive ? "Archived" : "Active"
+                              )
                             },
-                            [_vm._v("Del")]
-                          )
+                            on: {
+                              click: function($event) {
+                                $event.preventDefault()
+                                return _vm.toggleChannel(channel.id, index)
+                              }
+                            }
+                          })
                         ])
                       : _c("div", [
                           _c(
@@ -67858,7 +67878,7 @@ var render = function() {
                               on: {
                                 click: function($event) {
                                   $event.preventDefault()
-                                  return _vm.updateChannel(channel.id, index)
+                                  return _vm.updateChannel(channel, index)
                                 }
                               }
                             },

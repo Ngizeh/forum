@@ -57,6 +57,8 @@ Route::group([
      Route::get('/channels', 'ChannelsController@index')->name('admin.channels.index');
      Route::get('/channels/create', 'ChannelsController@create')->name('admin.channels.create');
      Route::patch('/channels/{channel}', 'ChannelsController@update');
+     Route::patch('/archive/{channel}', 'ArchiveChannelsController@update')->name('admin.archive');
+     Route::delete('/archive/{channel}', 'ArchiveChannelsController@destroy')->name('admin.destroy');
      Route::delete('/channels/{channel}', 'ChannelsController@destroy')->name('admin.channels.destroy');
 });
 

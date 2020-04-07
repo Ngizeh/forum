@@ -8,14 +8,18 @@ class Channel extends Model
 {
     protected $guarded = [];
 
+    protected $casts = [
+     'archive' => 'boolean'
+    ];
+
     protected $appends = ['ThreadsCount'];
 
     protected static function boot()
     {
         parent::boot();
 
-        static::deleting(function ($channel) {
-            $channel->threads()->delete();
+       static::addGlobalScope('active', function ($builder) {
+           $builder->where('archive', false);
         });
     }
 
@@ -32,4 +36,15 @@ class Channel extends Model
     {
        return $this->threads()->count();
     }
+
+    public function archive()
+    {
+        $this->update(['archive' => true]);
+    }
+
+    public function unarchive()
+    {
+        $this->update(['archive' => false]);
+    }
+
 }

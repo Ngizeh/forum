@@ -33,4 +33,16 @@ class ChannelTest extends TestCase
         $this->assertDatabaseHas('channels', ['archive' => true]);
    }
 
+   /** @test **/
+   public function channel_can_be_unarchived()
+   {
+        $channel = factory(Channel::class)->create();
+
+        $channel->unarchive();
+
+        $this->assertDatabaseHas('channels', ['archive' => false]);
+   }
+
+
+
 }

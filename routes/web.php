@@ -53,13 +53,16 @@ Route::group([
    'namespace' => 'Admin'
 ],function () {
      Route::get('/', 'DashboardController@index')->name('admin.dashboard.index');
-     Route::post('/channels', 'ChannelsController@store')->name('admin.channels.store');
+
+     //Channel
      Route::get('/channels', 'ChannelsController@index')->name('admin.channels.index');
+     Route::post('/channels', 'ChannelsController@store')->name('admin.channels.store');
      Route::get('/channels/create', 'ChannelsController@create')->name('admin.channels.create');
-     Route::patch('/channels/{channel}', 'ChannelsController@update');
-     Route::patch('/archive/{channel}', 'ArchiveChannelsController@update')->name('admin.archive');
-     Route::delete('/archive/{channel}', 'ArchiveChannelsController@destroy')->name('admin.destroy');
+     Route::patch('/channels/{channel}', 'ChannelsController@update')->name('admin.channel.update');
      Route::delete('/channels/{channel}', 'ChannelsController@destroy')->name('admin.channels.destroy');
+
+     Route::patch('/archive/{channel}', 'ArchiveChannelsController@update')->name('admin.archive.update');
+     Route::delete('/archive/{channel}', 'ArchiveChannelsController@destroy')->name('admin.archive.destroy');
 });
 
 

@@ -9,6 +9,6 @@
     </a>
 </p>
 
- <channel-view :channels="{{ $channels }}" v-cloak></channel-view>
+ <channel-view :channels="{{ $channels }}" v-cloak class="table"></channel-view>
 
 @endsection

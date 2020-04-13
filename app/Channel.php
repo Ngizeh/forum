@@ -9,7 +9,7 @@ class Channel extends Model
     protected $guarded = [];
 
     protected $casts = [
-     'archive' => 'boolean'
+        'archive' => 'boolean'
     ];
 
     protected $appends = ['ThreadsCount'];
@@ -44,7 +44,7 @@ class Channel extends Model
 
     public function unarchive()
     {
-        $this->update(['archive' => false]);
+         $this->update(['archive' => false]);
     }
 
 }

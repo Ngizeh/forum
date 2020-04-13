@@ -52,8 +52,8 @@ class LockThreadsTest extends TestCase
 
         $thread = factory(Thread::class)->create(['locked' => false]);
 
-        $this->delete(route('locked-thread.store', $thread), [
-            'locked' => true,
+        $this->delete(route('locked-thread.destroy', $thread), [
+            'locked' => false,
         ])->assertStatus(200);
 
         $this->assertFalse($thread->fresh()->locked);

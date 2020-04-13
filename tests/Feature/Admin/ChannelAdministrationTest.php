@@ -58,9 +58,11 @@ class ChannelAdministrationTest extends TestCase
 
         $this->signInAdmin();
 
-        $channel = factory(Channel::class)->create(['name' => 'Javascript', 'slug' => 'javascript']);
+        $channel = factory(Channel::class)->create();
 
-        $this->patch(route('admin.archive', $channel->id));
+        $this->patch("/admin/archive/{$channel->id}", [
+            'archive' => true
+        ]);
 
         $this->assertDatabaseHas('channels', ['archive' => true]);
     }
@@ -72,9 +74,11 @@ class ChannelAdministrationTest extends TestCase
 
         $this->signInAdmin();
 
-        $channel = factory(Channel::class)->create(['name' => 'Javascript', 'slug' => 'javascript', 'archive' => true]);
+        $channel = factory(Channel::class)->create(['archive' => true]);
 
-        $this->patch(route('admin.unarchive', $channel->id));
+        $channel->unarchive();
+
+        $this->delete("/admin/archive/{$channel->id}", $channel->toArray())->assertStatus(200);
 
         $this->assertDatabaseHas('channels', ['archive' => false]);
     }
@@ -86,9 +90,12 @@ class ChannelAdministrationTest extends TestCase
 
         $this->signInAdmin();
 
-        $channel = factory(Channel::class)->create(['name' => 'PHP', 'description' => 'About PHP']);
+        $channel = factory(Channel::class)->create();
 
-        $this->patch("/admin/channels/{$channel->id}", $channel->toArray());
+        $this->patch("/admin/channels/{$channel->id}", [
+          'name' => 'PHP',
+          'description' => 'About PHP'
+        ]);
 
        $this->assertDatabaseHas('channels', [
             'name' => $channel->fresh()->name,

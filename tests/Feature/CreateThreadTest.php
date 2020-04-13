@@ -48,7 +48,7 @@ class CreateThreadTest extends TestCase
                 ->assertSessionHas('flash', 'You must first confirm your email address');
     }
 
-    /** @test **/
+    /** @exclude-group **/
     public function an_authenticated_user_can_create_a_thread()
     {
         $this->withoutExceptionHandling();
@@ -86,7 +86,7 @@ class CreateThreadTest extends TestCase
         $response->assertSessionHasErrors('body');
     }
 
-    /** @test **/
+    /** @exclude-group **/
     public function recapture_is_required_for_the_thread()
     {
         unset(app()[Recaptcha::class]);
@@ -100,7 +100,7 @@ class CreateThreadTest extends TestCase
         $response->assertSessionHasErrors('g-recaptcha-response');
     }
 
-    /** @test **/
+    /** @exclude-group **/
     public function thread_requires_a_slug()
     {
         $this->be(factory(User::class)->create());

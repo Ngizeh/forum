@@ -8,13 +8,13 @@ use Illuminate\Http\Request;
 
 class ArchiveChannelsController extends Controller
 {
-    public function update($channel)
+    public function update($channelId)
     {
-        Channel::findOrFail($channel)->archive();
+        Channel::findOrFail($channelId)->archive();
     }
 
-    public function destroy($channel)
+    public function destroy($channelId)
     {
-        Channel::findOrFail($channel)->unarchive();
+       Channel::findOrFail($channelId)->unarchive();
     }
 }

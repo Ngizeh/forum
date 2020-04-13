@@ -34,7 +34,7 @@ class ChannelsController extends Controller
 
 		$channel->create($data + [ 'slug' => str_slug($data['name'])]);
 
-		Cache::forget('channels');
+		// Cache::forget('channels');
 
 		if (request()->wantsJson()) {
 			return response($channel, 201);
@@ -46,12 +46,18 @@ class ChannelsController extends Controller
 
 	public function update($channelId)
 	{
-		$data = $this->validate(request(), [
+		$chan = Channel::findOrFail($channelId);
+
+		$data = request()->validate([
 			'name' => 'required',
 			'description' => 'required'
 		]);
 
-	    Channel::findOrFail($channelId)->update($data + [ 'slug' => str_slug($data['name'])]);
+	    $chan->update($data + [ 'slug' => str_slug($data['name'])]);
+
+	    if (request()->wantsJson()) {
+			return response($chan, 201);
+		}
 
 		// Cache::forget('channels');
 	}

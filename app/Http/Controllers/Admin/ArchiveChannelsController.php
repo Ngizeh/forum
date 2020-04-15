@@ -3,18 +3,19 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Channel;
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class ArchiveChannelsController extends Controller
 {
-    public function update($channelId)
+
+    public function store(Channel $channel)
     {
-        Channel::findOrFail($channelId)->archive();
+        $channel->archive();
     }
 
-    public function destroy($channelId)
+    public function destroy(Channel $channel)
     {
-       Channel::findOrFail($channelId)->unarchive();
+        $channel->unarchive();
     }
 }

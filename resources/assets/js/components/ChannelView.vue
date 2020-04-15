@@ -9,7 +9,7 @@
 					<th>Action</th>
 				</tr>
 			</thead>
-			<tbody v-for="(channel, index) in items" :key="index">
+			<tbody v-for="(channel, index) in items" :key="channel.id">
 				<tabular-data :channel="channel"></tabular-data>
 			</tbody>
 		</table>
@@ -52,10 +52,6 @@
 				//dataset is the response data from Ajax
 				this.dataSet  = data;
 				this.items = data.data;
-			},
-			toggleChannel(channelId, index) {
-				let channel = this.chans.find(channel =>  channel.id === channelId);
-				channel.archive ?  this.archiveChannel(channel.id) : this.activeChannel(channel.id);
 			},
 	}
 }

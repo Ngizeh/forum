@@ -1,7 +1,10 @@
 {
     "name": "laravel/laravel",
     "description": "The Laravel Framework.",
-    "keywords": ["framework", "laravel"],
+    "keywords": [
+        "framework",
+        "laravel"
+    ],
     "license": "MIT",
     "type": "project",
     "require": {
@@ -10,7 +13,7 @@
         "barryvdh/laravel-debugbar": "^3.2",
         "fideloper/proxy": "^4.0",
         "kitetail/zttp": "^0.6.0",
-        "laravel/framework": "5.6.*",
+        "laravel/framework": "^5.8.0",
         "laravel/tinker": "^1.0",
         "predis/predis": "^1.1",
         "stevebauman/purify": "^3.0"
@@ -20,7 +23,8 @@
         "fzaninotto/faker": "^1.4",
         "mockery/mockery": "^1.0",
         "nunomaduro/collision": "^2.0",
-        "phpunit/phpunit": "^7.5"
+        "phpunit/phpunit": "^7.5",
+        "nikic/php-parser": "^2.0"
     },
     "autoload": {
         "classmap": [
@@ -38,8 +42,7 @@
     },
     "extra": {
         "laravel": {
-            "dont-discover": [
-            ]
+            "dont-discover": []
         }
     },
     "scripts": {
@@ -59,6 +62,6 @@
         "sort-packages": true,
         "optimize-autoloader": true
     },
-        "minimum-stability": "dev",
+    "minimum-stability": "dev",
     "prefer-stable": true
 }

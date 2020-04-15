@@ -24,7 +24,7 @@ class AppServiceProvider extends ServiceProvider
         // });
 
         view()->composer('*', function ($view) {
-            $view->with('channels', Channel::all());
+            $view->with('channels', Channel::withArchive());
         });
 
         Validator::extend('spamfree', 'App\Rules\SpamFree@passes');

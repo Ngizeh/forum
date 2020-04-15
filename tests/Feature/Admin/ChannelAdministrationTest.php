@@ -12,11 +12,11 @@ class ChannelAdministrationTest extends TestCase
 {
     use RefreshDatabase;
 
-    protected function setUp()
+    protected function setUp() : void
     {
        parent::setUp();
 
-       $this->withExceptionHandling();
+       // $this->withExceptionHandling();
     }
 
     /** @test **/
@@ -42,6 +42,8 @@ class ChannelAdministrationTest extends TestCase
     /** @test **/
     public function admin_can_create_a_channel()
     {
+        $this->withoutExceptionHandling();
+
         $this->signInAdmin();
 
         $channel = factory(Channel::class)->create();
@@ -60,27 +62,23 @@ class ChannelAdministrationTest extends TestCase
 
         $channel = factory(Channel::class)->create();
 
-        $this->patch("/admin/archive/{$channel->id}", [
-            'archive' => true
-        ]);
+        $this->post(route('admin-archive.store', $channel));
 
         $this->assertDatabaseHas('channels', ['archive' => true]);
     }
 
      /** @test **/
-    public function admin_can_mark_a_channel_unarchived()
+    public function can_mark_a_channel_unarchived()
     {
         $this->withoutExceptionHandling();
 
-        $this->signInAdmin();
+       $this->signInAdmin();
 
         $channel = factory(Channel::class)->create(['archive' => true]);
 
-        $channel->unarchive();
+        $this->delete(route('archive-channel.destroy', $channel));
 
-        $this->delete("/admin/archive/{$channel->id}", $channel->toArray())->assertStatus(200);
-
-        $this->assertDatabaseHas('channels', ['archive' => false]);
+        $this->assertFalse($channel->fresh()->archive);
     }
 
     /** @test **/
@@ -92,14 +90,14 @@ class ChannelAdministrationTest extends TestCase
 
         $channel = factory(Channel::class)->create();
 
-        $this->patch("/admin/channels/{$channel->id}", [
+        $this->patch("/admin/channels/{$channel->slug}", [
           'name' => 'PHP',
           'description' => 'About PHP'
         ]);
 
        $this->assertDatabaseHas('channels', [
-            'name' => $channel->fresh()->name,
-            'description' => $channel->fresh()->description
+            'name' => 'PHP',
+            'description' => 'About PHP'
        ]);
     }
 

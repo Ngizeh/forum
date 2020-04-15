@@ -25,6 +25,9 @@ Route::delete('/replies/{reply}', 'RepliesController@destroy')->name('reply.dest
 Route::post('/lock-thread/{thread}', 'LockThreadController@store')->name('locked-thread.store')->middleware('admin');
 Route::delete('/lock-thread/{thread}', 'LockThreadController@destroy')->name('locked-thread.destroy')->middleware('admin');
 
+Route::post('/admin-archive/{channel}', 'Admin\ArchiveChannelsController@store')->name('admin-archive.store')->middleware('admin');
+Route::delete('/admin-archive/{channel}', 'Admin\ArchiveChannelsController@destroy')->name('archive-channel.destroy')->middleware('admin');
+
 
 //Filtered by channel
 Route::get('/threads/{channel}', 'ThreadsController@index');
@@ -57,13 +60,13 @@ Route::group([
      //Channel
      Route::get('/channels', 'ChannelsController@index')->name('admin.channels.index');
      Route::post('/channels', 'ChannelsController@store')->name('admin.channels.store');
-     Route::get('/channels/create', 'ChannelsController@create')->name('admin.channels.create');
      Route::patch('/channels/{channel}', 'ChannelsController@update')->name('admin.channel.update');
+     Route::get('/channels/create', 'ChannelsController@create')->name('admin.channels.create');
      Route::delete('/channels/{channel}', 'ChannelsController@destroy')->name('admin.channels.destroy');
 
-     Route::patch('/archive/{channel}', 'ArchiveChannelsController@update')->name('admin.archive.update');
-     Route::delete('/archive/{channel}', 'ArchiveChannelsController@destroy')->name('admin.archive.destroy');
 });
+
+
 
 
 

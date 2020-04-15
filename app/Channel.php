@@ -8,19 +8,13 @@ class Channel extends Model
 {
     protected $guarded = [];
 
-    protected $casts = [
-        'archive' => 'boolean'
-    ];
-
     protected $appends = ['ThreadsCount'];
 
-    protected static function boot()
-    {
-        parent::boot();
+    protected $casts = ['archive' => 'boolean'];
 
-       static::addGlobalScope('active', function ($builder) {
-           $builder->where('archive', false);
-        });
+    public function scopeWithArchive($query)
+    {
+       return $query->where('archive', false)->get();
     }
 
     public function getRouteKeyName()
@@ -44,7 +38,9 @@ class Channel extends Model
 
     public function unarchive()
     {
-         $this->update(['archive' => false]);
+        $this->update(['archive' => false]);
     }
+
+
 
 }

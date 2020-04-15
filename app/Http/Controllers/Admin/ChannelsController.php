@@ -11,7 +11,7 @@ class ChannelsController extends Controller
 {
 	public function index(Channel $channel)
 	{
-		$channels = Channel::latest('created_at')->withoutGlobalScope('active')->paginate(8);
+		$channels = Channel::latest('created_at')->paginate(8);
 
 		  if (request()->wantsJson()) {
             return $channels;
@@ -44,19 +44,17 @@ class ChannelsController extends Controller
 		->with('flash', 'Your channel has been created!');
 	}
 
-	public function update($channelId)
+	public function update(Channel $channel)
 	{
-		$chan = Channel::findOrFail($channelId);
-
 		$data = request()->validate([
 			'name' => 'required',
 			'description' => 'required'
 		]);
 
-	    $chan->update($data + [ 'slug' => str_slug($data['name'])]);
+	    $channel->update($data + [ 'slug' => str_slug($data['name'])]);
 
 	    if (request()->wantsJson()) {
-			return response($chan, 201);
+			return response($channel, 201);
 		}
 
 		// Cache::forget('channels');

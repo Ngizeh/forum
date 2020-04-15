@@ -37,7 +37,7 @@ class ParticipateInThreadTest extends TestCase
     {
         $this->be(factory(User::class)->create());
 
-        $reply = factory(Reply::class)->create();
+        $reply = factory(Reply::class)->make();
 
         $response = $this->post($this->thread->path()."/replies", $reply->toArray());
 

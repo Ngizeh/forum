@@ -31595,6 +31595,7 @@ Vue.component('user-notification', __webpack_require__(183));
 Vue.component('avatar-form', __webpack_require__(188));
 Vue.component('wysiwyg', __webpack_require__(18));
 Vue.component('channel-view', __webpack_require__(204));
+Vue.component('channel-list', __webpack_require__(247));
 
 Vue.component('thread-view', __webpack_require__(214));
 
@@ -67598,7 +67599,7 @@ exports = module.exports = __webpack_require__(3)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -67668,12 +67669,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			//dataset is the response data from Ajax
 			this.dataSet = data;
 			this.items = data.data;
-		},
-		toggleChannel: function toggleChannel(channelId, index) {
-			var channel = this.chans.find(function (channel) {
-				return channel.id === channelId;
-			});
-			channel.archive ? this.archiveChannel(channel.id) : this.activeChannel(channel.id);
 		}
 	}
 });
@@ -67814,22 +67809,26 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     data: function data() {
         return {
             edit: false,
-            path: '/admin/archive/' + this.channel.id,
             data: this.channel,
-            id: this.channel.id,
             name: this.channel.name,
-            description: this.channel.description,
+            id: this.channel.id,
+            slug: this.channel.slug,
             archive: this.channel.archive,
-            oldName: ''
+            description: this.channel.description,
+            oldData: ''
         };
     },
 
+    computed: {
+        path: function path() {
+            return '/admin-archive/' + this.slug;
+        }
+    },
     methods: {
         updateChannel: function updateChannel() {
-            this.oldName = this.name;
-            axios.patch('/admin/channels/' + this.id, {
-                name: this.data.name,
-                description: this.data.description
+            axios.patch('/admin/channels/' + this.slug, {
+                name: this.name,
+                description: this.description
             }).catch(function (error) {
                 flash(error.response.data.message, 'danger');
             });
@@ -67837,22 +67836,22 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             flash('Updated Channel');
         },
         toggleChannel: function toggleChannel() {
-            this.data.archive ? this.archiveChannel() : this.activeChannel();
+            this.archive ? this.archiveChannel() : this.activeChannel();
         },
         activeChannel: function activeChannel() {
-            axios.patch(this.path, { data: this.data });
+            axios.post(this.path);
             this.archive = true;
             flash('Activated Channel', 'primary');
         },
         archiveChannel: function archiveChannel() {
-            axios.delete(this.path, { data: this.data });
+            axios.delete(this.path);
             this.archive = false;
             flash('Archived Channel', 'secondary');
         },
-        editChannel: function editChannel(channel) {
+        editChannel: function editChannel() {
             this.edit = true;
         },
-        cancelEdit: function cancelEdit(channel) {
+        cancelEdit: function cancelEdit() {
             this.edit = false;
         }
     }
@@ -67875,25 +67874,25 @@ var render = function() {
                   {
                     name: "model",
                     rawName: "v-model",
-                    value: _vm.data.name,
-                    expression: "data.name"
+                    value: _vm.name,
+                    expression: "name"
                   }
                 ],
                 staticClass: "form-control",
                 attrs: { type: "text", size: "5" },
-                domProps: { value: _vm.data.name },
+                domProps: { value: _vm.name },
                 on: {
                   input: function($event) {
                     if ($event.target.composing) {
                       return
                     }
-                    _vm.$set(_vm.data, "name", $event.target.value)
+                    _vm.name = $event.target.value
                   }
                 }
               })
             : _c("span", { staticStyle: { "text-transform": "capitalize" } }, [
                 _c("a", { attrs: { href: "/threads/" + _vm.data.name } }, [
-                  _vm._v(" " + _vm._s(_vm.data.name))
+                  _vm._v(" " + _vm._s(_vm.name))
                 ])
               ])
         ]),
@@ -67905,28 +67904,26 @@ var render = function() {
                   {
                     name: "model",
                     rawName: "v-model",
-                    value: _vm.data.description,
-                    expression: "data.description"
+                    value: _vm.description,
+                    expression: "description"
                   }
                 ],
                 staticClass: "form-control",
                 attrs: { col: "30", row: "10", type: "text" },
                 domProps: {
-                  value: _vm.data.description,
-                  textContent: _vm._s(_vm.data.description)
+                  value: _vm.description,
+                  textContent: _vm._s(_vm.description)
                 },
                 on: {
                   input: function($event) {
                     if ($event.target.composing) {
                       return
                     }
-                    _vm.$set(_vm.data, "description", $event.target.value)
+                    _vm.description = $event.target.value
                   }
                 }
               })
-            : _c("span", [
-                _vm._v(_vm._s(_vm.data.description.slice(0, 80) + "..."))
-              ])
+            : _c("span", [_vm._v(_vm._s(_vm.description.slice(0, 80) + "..."))])
         ]),
         _vm._v(" "),
         _c("td", [_vm._v(_vm._s(_vm.data.ThreadsCount))]),
@@ -67938,11 +67935,7 @@ var render = function() {
                   "button",
                   {
                     staticClass: "btn btn-sm size btn-primary",
-                    on: {
-                      click: function($event) {
-                        return _vm.editChannel(_vm.data)
-                      }
-                    }
+                    on: { click: _vm.editChannel }
                   },
                   [_vm._v("Edit")]
                 ),
@@ -67956,7 +67949,7 @@ var render = function() {
                   on: {
                     click: function($event) {
                       $event.preventDefault()
-                      return _vm.toggleChannel()
+                      return _vm.toggleChannel($event)
                     }
                   }
                 })
@@ -67969,7 +67962,7 @@ var render = function() {
                     on: {
                       click: function($event) {
                         $event.preventDefault()
-                        return _vm.updateChannel(_vm.data.id)
+                        return _vm.updateChannel($event)
                       }
                     }
                   },
@@ -67980,11 +67973,7 @@ var render = function() {
                   "button",
                   {
                     staticClass: "btn btn-sm size btn-link",
-                    on: {
-                      click: function($event) {
-                        return _vm.cancelEdit(_vm.data)
-                      }
-                    }
+                    on: { click: _vm.cancelEdit }
                   },
                   [_vm._v("Cancel")]
                 )
@@ -68033,7 +68022,7 @@ var render = function() {
           _vm._l(_vm.items, function(channel, index) {
             return _c(
               "tbody",
-              { key: index },
+              { key: channel.id },
               [_c("tabular-data", { attrs: { channel: channel } })],
               1
             )
@@ -71242,6 +71231,39 @@ if (false) {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 244 */,
+/* 245 */,
+/* 246 */,
+/* 247 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = null
+/* template */
+var __vue_template__ = null
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/ChannelList.vue"
+
+module.exports = Component.exports
+
 
 /***/ })
 /******/ ]);

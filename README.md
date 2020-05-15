@@ -11,6 +11,21 @@
  git clone https://Ngizeh@bitbucket.org/Ngizeh/forum.git
 ```
 
+## Copy the config file and edit your system setting
+
+```
+  cp .env.example .env
+```
+
+```
+DB_CONNECTION="Your database system"
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE="Your database name"
+DB_USERNAME="Your database user name"
+DB_PASSWORD="Your database passoword"
+```
+
 Make sure you have redis server installed in your machine.
 If you don't, paste the following on terminal
 

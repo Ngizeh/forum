@@ -22,7 +22,7 @@ jobs:
     - name: Directory Permissions
       run: chmod -R 777 storage bootstrap/cache
     - name: Install Redis Server
-      run : apt-get install redis-server
+      run : sudo apt-get install redis-server
     - name: Create Database
       run: |
         mkdir -p database

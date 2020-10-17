@@ -43,7 +43,9 @@ class BestReplyTest extends TestCase
 
     }
 
-    /** @test **/
+    /**
+     * @codeCoverageIgnore
+     */
     public function if_the_best_reply_is_deleted_the_thread_reply_should_reflect_that()
     {
 

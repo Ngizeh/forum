@@ -11,42 +11,42 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class AddAvatarTest extends TestCase
 {
-    use RefreshDatabase;
+	use RefreshDatabase;
 
-    /** @test **/
-    public function members_can_only_upload_an_avatar()
-    {
-       $response = $this->json('post', '/api/users/1/avatar');
+	/** @test **/
+	public function members_can_only_upload_an_avatar()
+	{
+		$response = $this->json('post', '/api/users/1/avatar');
 
-       $response->assertStatus(401);
-    }
+		$response->assertStatus(401);
+	}
 
-    /** @test **/
-    public function validate_the_avatar()
-    {
-        $this->be(factory(User::class)->create());
+	/** @test **/
+	public function validate_the_avatar()
+	{
+		$this->be(factory(User::class)->create());
 
-        $response = $this->json('post', '/api/users/'.auth()->id().'/avatar', [
-            'avatar' => 'not-valid-avatar'
-        ]);
+		$response = $this->json('post', '/api/users/'.auth()->id().'/avatar', [
+			'avatar' => 'not-valid-avatar'
+		]);
 
-        $response->assertStatus(422);
-    }
+		$response->assertStatus(422);
+	}
 
-    /** @test **/
-    public function a_user_my_add_an_avatar_for_their_profile()
-    {
+	/** @test **/
+	public function a_user_my_add_an_avatar_for_their_profile()
+	{
 
-        $this->be(factory(User::class)->create());
+		$this->be(factory(User::class)->create());
 
-        Storage::disk('public');
+		Storage::disk('public');
 
-        $this->json('post', '/api/users/'.auth()->id().'/avatar', [
-            'avatar' => $file = UploadedFile::fake()->image('avatar.jpeg')
-        ]);
+		$this->json('post', '/api/users/'.auth()->id().'/avatar', [
+			'avatar' => $file = UploadedFile::fake()->image('avatar.jpeg')
+		]);
 
-        $this->assertEquals(asset('avatars/'.$file->hashName()), auth()->user()->avatar_path);
+		$this->assertEquals(asset('avatars/'.$file->hashName()), auth()->user()->avatar_path);
 
-        Storage::disk('public')->assertExists('avatars/'.$file->hashName());
-    }
+		Storage::disk('public')->assertExists('avatars/'.$file->hashName());
+	}
 }

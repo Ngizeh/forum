@@ -53,8 +53,8 @@
 				this.dataSet  = data;
 				this.items = data.data;
 			},
+		}
 	}
-}
 </script>
 
 <style lang="css" scoped>

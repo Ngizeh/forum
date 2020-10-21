@@ -12,13 +12,13 @@
 </template>
 <script>
 	import Reply from './Reply.vue';
-    import NewReply from './NewReply.vue';
-    import collection from '../mixins/Collection.js'
+	import NewReply from './NewReply.vue';
+	import collection from '../mixins/Collection.js'
 
 	export default {
 		components : { Reply, NewReply },
 		// CRUD Operation functions are on the collection mixins
-		 mixins : [collection ],
+		mixins : [collection ],
 		data() {
 			return {
 				endpoint : location.pathname + '/replies',

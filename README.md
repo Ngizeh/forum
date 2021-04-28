@@ -68,6 +68,12 @@ Install the project dependencies
 ```
 
 
+- Fill the database with seeder data, run this on the terminal
+```
+  php artisan db:seed
+
+```
+
 Finally,serve your Application on localhost:) http://localhost:8000
 - If you don't have valet installed in your machine. Use this command on your terminal
 ```

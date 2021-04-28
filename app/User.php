@@ -58,7 +58,7 @@ class User extends Authenticatable
 
     public function getAvatarPathAttribute($avatar)
     {
-        return asset($avatar ?: '/storage/avatars/default.png');
+        return asset($avatar ?: '/avatars/default.png');
     }
 
     public function lastReply()

@@ -16,7 +16,7 @@ class ReadThreadTest extends TestCase
     public function setUp() : void
     {
         parent::setUp();
-        $this->thread = factory(Thread::class)->create();
+        $this->thread = Thread::factory()->create();
     }
 
     /** @test **/
@@ -38,11 +38,11 @@ class ReadThreadTest extends TestCase
     /** @test **/
     public function a_thread_can_be_filtered_by_channel()
     {
-        $channel = factory(Channel::class)->create();
+        $channel = Channel::factory()->create();
 
-        $thread = factory(Thread::class)->create(['channel_id' => $channel->id]);
+        $thread = Thread::factory()->create(['channel_id' => $channel->id]);
 
-        $threadWithOutChannel = factory(Thread::class)->create();
+        $threadWithOutChannel = Thread::factory()->create();
 
         $this->get("/threads/{$channel->slug}")
                 ->assertSee($thread->title)
@@ -52,10 +52,10 @@ class ReadThreadTest extends TestCase
     /** @test **/
     public function a_thread_can_be_filtered_by_username()
     {
-        $this->be(factory(User::class)->create(['name' => 'SmithDoe']));
+        $this->be(User::factory()->create(['name' => 'SmithDoe']));
 
-        $thread = factory(Thread::class)->create(['user_id' => auth()->id()]);
-        $threadBySomeone = factory(Thread::class)->create();
+        $thread = Thread::factory()->create(['user_id' => auth()->id()]);
+        $threadBySomeone = Thread::factory()->create();
 
         $this->get('/threads?by=SmithDoe')
                 ->assertSee($thread->title)
@@ -65,11 +65,11 @@ class ReadThreadTest extends TestCase
     /** @test */
     public function a_thread_can_be_filtered_by_popularity()
     {
-        $threadWithTwoReplies = factory(Thread::class)->create();
-        factory(Reply::class, 2)->create(['thread_id' => $threadWithTwoReplies->id]);
+        $threadWithTwoReplies = Thread::factory()->create();
+        Reply::factory()->times(2)->create(['thread_id' => $threadWithTwoReplies->id]);
 
-        $threadWithThreeReplies = factory(Thread::class)->create();
-        factory(Reply::class, 3)->create(['thread_id' => $threadWithThreeReplies->id]);
+        $threadWithThreeReplies = Thread::factory()->create();
+        Reply::factory()->times(3)->create(['thread_id' => $threadWithThreeReplies->id]);
 
         $response = $this->getJson('/threads?popularity=1')->json();
 
@@ -87,7 +87,7 @@ class ReadThreadTest extends TestCase
     /** @test **/
     public function user_can_get_all_the_threads_of_the_reply()
     {
-        $replies = factory(Reply::class, 2)->create(['thread_id' => $this->thread->id]);
+        $replies = Reply::factory()->times(2)->create(['thread_id' => $this->thread->id]);
 
         $response  = $this->getJson($this->thread->path()."/replies")->json();
 

@@ -18,7 +18,7 @@ class ParticipateInThreadTest extends TestCase
     {
         parent::setUp();
 
-        $this->thread = factory(Thread::class)->create();
+        $this->thread = Thread::factory()->create();
     }
 
     /** @test **/
@@ -28,16 +28,16 @@ class ParticipateInThreadTest extends TestCase
 
         $this->expectException(AuthenticationException::class);
 
-        factory(Reply::class)->create();
+        Reply::factory()->create();
         $this->post($this->thread->path()."/replies", []);
     }
 
     /** @test **/
     public function an_authenticated_user_can_participate_in_the_forum()
     {
-        $this->be(factory(User::class)->create());
+        $this->be(User::factory()->create());
 
-        $reply = factory(Reply::class)->make();
+        $reply = Reply::factory()->make();
 
         $response = $this->post($this->thread->path()."/replies", $reply->toArray());
 
@@ -48,9 +48,9 @@ class ParticipateInThreadTest extends TestCase
     /** @test **/
     public function body_is_required_for_the_thread()
     {
-        $this->be(factory(User::class)->create());
+        $this->be(User::factory()->create());
 
-        $thread = factory(Thread::class)->make(['body' => null]);
+        $thread = Thread::factory()->make(['body' => null]);
 
         $response = $this->post('/threads', $thread->toArray());
 
@@ -63,10 +63,10 @@ class ParticipateInThreadTest extends TestCase
         $this->withoutExceptionHandling();
         $this->expectException(AuthenticationException::class);
 
-        $reply = factory(Reply::class)->create();
+        $reply = Reply::factory()->create();
         $this->delete("/replies/{$reply->id}")->assertRedirect('/login');
 
-        $this->be(factory(User::class)->create());
+        $this->be(User::factory()->create());
         $this->delete("/replies/{$reply->id}");
     }
 
@@ -75,11 +75,11 @@ class ParticipateInThreadTest extends TestCase
     {
         $this->withoutExceptionHandling();
 
-        $this->be(factory(User::class)->create());
+        $this->be(User::factory()->create());
 
-        $thread = factory(Thread::class)->create();
+        $thread = Thread::factory()->create();
 
-        $reply = factory(Reply::class)->create(['user_id' => auth()->id(), 'thread_id' => $thread->id]);
+        $reply = Reply::factory()->create(['user_id' => auth()->id(), 'thread_id' => $thread->id]);
 
         $this->delete("/replies/{$reply->id}")->assertStatus(302);
 
@@ -93,10 +93,10 @@ class ParticipateInThreadTest extends TestCase
         $this->withoutExceptionHandling();
         $this->expectException(AuthenticationException::class);
 
-        $reply = factory(Reply::class)->create();
+        $reply = Reply::factory()->create();
         $this->patch("/replies/{$reply->id}")->assertRedirect('/login');
 
-        $this->be(factory(User::class)->create());
+        $this->be(User::factory()->create());
         $this->patch("/replies/{$reply->id}");
     }
 
@@ -105,9 +105,9 @@ class ParticipateInThreadTest extends TestCase
     {
         $this->withoutExceptionHandling();
 
-        $this->be(factory(User::class)->create());
+        $this->be(User::factory()->create());
 
-        $reply = factory(Reply::class)->create(['user_id' => auth()->id()]);
+        $reply = Reply::factory()->create(['user_id' => auth()->id()]);
 
         $this->patch("/replies/{$reply->id}", ['body' => 'changed']);
 
@@ -119,9 +119,9 @@ class ParticipateInThreadTest extends TestCase
     {
          $this->withoutExceptionHandling();
 
-         $this->be(factory(User::class)->create());
+         $this->be(User::factory()->create());
 
-         $reply = factory(Reply::class)->make([
+         $reply = Reply::factory()->make([
              'body' => 'Google Customer Support',
              'user_id' => auth()->id()
          ]);
@@ -136,9 +136,9 @@ class ParticipateInThreadTest extends TestCase
     public function users_may_reply_one_reply_per_minute()
     {
 
-       $this->be(factory(User::class)->create());
+       $this->be(User::factory()->create());
 
-       $reply = factory(Reply::class)->make([
+       $reply = Reply::factory()->make([
            'body' => 'Some reply here',
        ]);
 

@@ -16,7 +16,7 @@ class ReputationTest extends TestCase
     /** @test **/
     public function user_earns_points_when_they_create_a_thread()
     {
-        $thread = factory(Thread::class)->create();
+        $thread = Thread::factory()->create();
 
         $this->assertEquals(Reputation::THREAD_CREATED, $thread->creator->reputation);
     }
@@ -24,9 +24,9 @@ class ReputationTest extends TestCase
      /** @test **/
     public function user_looses_points_when_they_delete_a_thread()
     {
-        $this->be(factory(User::class)->create());
+        $this->be(User::factory()->create());
 
-        $thread = factory(Thread::class)->create(['user_id' => auth()->id()]);
+        $thread = Thread::factory()->create(['user_id' => auth()->id()]);
 
         $this->delete($thread->path());
 
@@ -36,9 +36,9 @@ class ReputationTest extends TestCase
       /** @test **/
     public function user_looses_points_when_a_reply_to_a_thread_is_deleted()
     {
-        $this->be(factory(User::class)->create());
+        $this->be(User::factory()->create());
 
-        $reply = factory(Reply::class)->create(['user_id' => auth()->id()]);
+        $reply = Reply::factory()->create(['user_id' => auth()->id()]);
 
         $this->delete("/replies/{$reply->id}");
 
@@ -48,9 +48,9 @@ class ReputationTest extends TestCase
      /** @test **/
     public function user_earn_points_when_a_reply_to_a_thread_is_favorited()
     {
-        $this->be(factory(User::class)->create());
+        $this->be(User::factory()->create());
 
-        $reply = factory(Reply::class)->create(['user_id' => auth()->id()]);
+        $reply = Reply::factory()->create(['user_id' => auth()->id()]);
 
         $this->post("/replies/{$reply->id}/favorites");
 
@@ -62,9 +62,9 @@ class ReputationTest extends TestCase
      /** @test **/
     public function user_looses_points_when_a_reply_to_a_thread_is_unfavorited()
     {
-        $this->be(factory(User::class)->create());
+        $this->be(User::factory()->create());
 
-        $reply = factory(Reply::class)->create(['user_id' => auth()->id()]);
+        $reply = Reply::factory()->create(['user_id' => auth()->id()]);
 
         $this->post("/replies/{$reply->id}/favorites");
 
@@ -79,11 +79,11 @@ class ReputationTest extends TestCase
       /** @test **/
     public function user_earns_points_when_they_reply_is_marked_as_best()
     {
-        $thread = factory(Thread::class)->create();
+        $thread = Thread::factory()->create();
 
         $reply = $thread->addReply([
             'body' => 'I have something to say',
-            'user_id' => factory(User::class)->create()->id
+            'user_id' => User::factory()->create()->id
         ]);
 
         $thread->markBestReply($reply);

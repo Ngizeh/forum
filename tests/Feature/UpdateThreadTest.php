@@ -16,13 +16,13 @@ class UpdateThreadTest extends TestCase
     {
        parent::setUp();
 
-       $this->be(factory(User::class)->create());
+       $this->be(User::factory()->create());
     }
 
     /** @test **/
     public function a_thread_can_be_update_by_it_creator()
     {
-        $thread = factory(Thread::class)->create(['user_id' => auth()->id()]);
+        $thread = Thread::factory()->create(['user_id' => auth()->id()]);
 
         $this->patch($thread->path(), [
            'title' => 'Changed title',
@@ -38,7 +38,7 @@ class UpdateThreadTest extends TestCase
     /** @test **/
      public function a_thread_can_not_be_update_by_it_()
     {
-        $thread = factory(Thread::class)->create(['user_id' => factory(User::class)->create()->id]);
+        $thread = Thread::factory()->create(['user_id' => User::factory()->create()->id]);
 
         $this->patch($thread->path(), [
            'title' => 'Changed title',
@@ -50,7 +50,7 @@ class UpdateThreadTest extends TestCase
       /** @test **/
     public function title_and_body_is_required_to_update()
     {
-        $thread = factory(Thread::class)->create(['user_id' => auth()->id()]);
+        $thread = Thread::factory()->create(['user_id' => auth()->id()]);
 
         $this->patch($thread->path(), ['title' => null])->assertSessionHasErrors('title');
         $this->patch($thread->path(), ['body' => null])->assertSessionHasErrors('body');

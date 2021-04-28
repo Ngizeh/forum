@@ -23,7 +23,7 @@
 							This thread was published by {{ $thread->created_at->diffForHumans()}} by
 							<a href="/profile/{{$thread->creator->name}}">{{ $thread->creator->name }}</a> and currently has
 							<span v-text="repliesCount" class="pr-1"></span>
-							{{ str_plural('reply', $thread->replies_count) }}
+							{{  $thread->pluralized() }}
 						</p>
 						<p class="d-flex justify-content-between">
 							<subscribe-button :active="@json($thread->isSubscribedTo)"></subscribe-button>

@@ -4,11 +4,13 @@ namespace App;
 
 use App\Events\ThreadReceivedNewReply;
 use App\Reputation;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Thread extends Model
 {
-	use RecordActivity, RecordsVisits;
+	use RecordActivity, RecordsVisits, HasFactory;
 
 	protected $guarded = [];
 
@@ -108,7 +110,7 @@ class Thread extends Model
 
 	public function setSlugAttribute($value)
 	{
-		$slug = str_slug($value);
+		$slug = Str::slug($value);
 
 		if(static::whereSlug($slug)->exists()){
 			$slug = "{$slug}-".$this->id;
@@ -126,4 +128,16 @@ class Thread extends Model
 	{
 		return \Purify::clean($body);
 	}
+
+	public function pluralized()
+	{
+		return Str::plural('reply', $this->reply_count);
+	}
+
+	public function excerpt()
+	{
+		return Str::limit($this->title, 20);
+	}
+
+
 }

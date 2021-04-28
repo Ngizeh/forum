@@ -38,9 +38,9 @@ class CreateThreadTest extends TestCase
     /** @test **/
     public function authenticated_user_must_confirm_the_email_address()
     {
-        $this->be(factory(User::class)->states('unconfirmed')->create());
+        $this->be(User::factory()->unconfirmed()->create());
 
-        $thread = factory(Thread::class)->create();
+        $thread = Thread::factory()->create();
 
         $response = $this->post(route('threads'), $thread->toArray());
 
@@ -53,9 +53,9 @@ class CreateThreadTest extends TestCase
     {
         $this->withoutExceptionHandling();
 
-        $this->be(factory(User::class)->create());
+        $this->be(User::factory()->create());
 
-        $thread = factory(Thread::class)->make();
+        $thread = Thread::factory()->make();
 
         $response = $this->post(route("threads"), $thread->toArray()+['g-recaptcha-response' => 'token']);
 
@@ -65,9 +65,9 @@ class CreateThreadTest extends TestCase
     /** @test **/
     public function title_is_required_for_the_thread()
     {
-        $this->be(factory(User::class)->create());
+        $this->be(User::factory()->create());
 
-        $thread = factory(Thread::class)->make(['title' => null]);
+        $thread = Thread::factory()->make(['title' => null]);
 
         $response = $this->post(route('threads'), $thread->toArray());
 
@@ -77,9 +77,9 @@ class CreateThreadTest extends TestCase
     /** @test **/
     public function body_is_required_for_the_thread()
     {
-        $this->be(factory(User::class)->create());
+        $this->be(User::factory()->create());
 
-        $thread = factory(Thread::class)->make(['body' => null]);
+        $thread = Thread::factory()->make(['body' => null]);
 
         $response = $this->post(route('threads'), $thread->toArray());
 
@@ -91,9 +91,9 @@ class CreateThreadTest extends TestCase
     {
         unset(app()[Recaptcha::class]);
 
-        $this->be(factory(User::class)->create());
+        $this->be(User::factory()->create());
 
-        $thread = factory(Thread::class)->make(['g-recaptcha-response' => 'test']);
+        $thread = Thread::factory()->make(['g-recaptcha-response' => 'test']);
 
         $response = $this->post(route('threads'), $thread->toArray());
 
@@ -103,9 +103,9 @@ class CreateThreadTest extends TestCase
     /** @exclude-group **/
     public function thread_requires_a_slug()
     {
-        $this->be(factory(User::class)->create());
+        $this->be(User::factory()->create());
 
-        $thread = factory(Thread::class)->create(['title' => 'Test message']);
+        $thread = Thread::factory()->create(['title' => 'Test message']);
 
         $this->assertEquals($thread->fresh()->slug, 'test-message');
 
@@ -117,11 +117,11 @@ class CreateThreadTest extends TestCase
     /** @test **/
     public function unauthorized_user_can_not_delete_a_thread()
     {
-        $thread = factory(Thread::class)->create();
+        $thread = Thread::factory()->create();
 
         $this->delete($thread->path())->assertRedirect('/login');
 
-        $this->be(factory(User::class)->create());
+        $this->be(User::factory()->create());
 
         $this->delete($thread->path())->assertForbidden();
     }
@@ -129,11 +129,11 @@ class CreateThreadTest extends TestCase
     /** @test **/
     public function authorized_user_can_delete_a_thread()
     {
-        $this->be(factory(User::class)->create());
+        $this->be(User::factory()->create());
 
-        $thread = factory(Thread::class)->create(['user_id' => auth()->id()]);
+        $thread = Thread::factory()->create(['user_id' => auth()->id()]);
 
-        $reply = factory(Reply::class)->create(['thread_id' => $thread->id]);
+        $reply = Reply::factory()->create(['thread_id' => $thread->id]);
 
         $this->delete($thread->path());
 
@@ -145,13 +145,13 @@ class CreateThreadTest extends TestCase
     /** @test **/
     public function channel_is_required_and_an_existing_one_for_the_thread()
     {
-        $this->be(factory(User::class)->create());
+        $this->be(User::factory()->create());
 
-        factory(Channel::class, 2)->create();
-        $thread = factory(Thread::class)->make(['channel_id' => null]);
+        Channel::factory()->times(2)->create();
+        $thread = Thread::factory()->make(['channel_id' => null]);
         $this->post(route('threads'), $thread->toArray())->assertSessionHasErrors('channel_id');
 
-        $thread = factory(Thread::class)->make(['channel_id' => 999]);
+        $thread = Thread::factory()->make(['channel_id' => 999]);
         $this->post(route('threads'), $thread->toArray())->assertSessionHasErrors('channel_id');
     }
 

@@ -15,9 +15,9 @@ class LockThreadsTest extends TestCase
     /** @test **/
     public function non_admininstrators_can_not_lock_a_thread()
     {
-        $this->be(factory(User::class)->create());
+        $this->be(User::factory()->create());
 
-        $thread = factory(Thread::class)->create(['user_id' => auth()->id()]);
+        $thread = Thread::factory()->create(['user_id' => auth()->id()]);
 
         $this->post(route('locked-thread.store', $thread), [
             'locked' => true,
@@ -31,9 +31,9 @@ class LockThreadsTest extends TestCase
     {
         $this->withoutExceptionHandling();
 
-        $this->be(factory(User::class)->states('admin')->create());
+        $this->be(User::factory()->admin()->create());
 
-        $thread = factory(Thread::class)->create();
+        $thread = Thread::factory()->create();
 
         $this->post(route('locked-thread.store', $thread), [
             'locked' => true,
@@ -48,9 +48,9 @@ class LockThreadsTest extends TestCase
     {
         $this->withoutExceptionHandling();
 
-        $this->be(factory(User::class)->states('admin')->create());
+        $this->be(User::factory()->admin()->create());
 
-        $thread = factory(Thread::class)->create(['locked' => true]);
+        $thread = Thread::factory()->create(['locked' => true]);
 
         $response = $this->delete(route('locked-thread.destroy', $thread), [
             'locked' => false,
@@ -65,9 +65,9 @@ class LockThreadsTest extends TestCase
    {
         $this->withoutExceptionHandling();
 
-        $this->be(factory(User::class)->create());
+        $this->be(User::factory()->create());
 
-        $thread = factory(Thread::class)->create(['locked' => true]);
+        $thread = Thread::factory()->create(['locked' => true]);
 
         $response = $this->post($thread->path().'/replies', [
             'body' => 'test',

@@ -32,7 +32,7 @@ class ChannelAdministrationTest extends TestCase
      /** @test **/
     public function non_admin_cannot_view_and_create_channel_section()
     {
-        $regularUser = factory(User::class)->create();
+        $regularUser = User::factory()->create();
 
         $this->actingAs($regularUser)->get(route('admin.channels.index'))->assertStatus(403);
 
@@ -42,15 +42,14 @@ class ChannelAdministrationTest extends TestCase
     /** @test **/
     public function admin_can_create_a_channel()
     {
-        $this->withoutExceptionHandling();
 
         $this->signInAdmin();
 
-        $channel = factory(Channel::class)->create();
+        $channel = Channel::factory()->raw();
 
-        $response = $this->post(route('admin.channels.store'), $channel->toArray());
+        $this->post(route('admin.channels.store'), $channel);
 
-        $this->get($response->headers->get('Location'))->assertSee($channel->title)->assertSee($channel->body);
+        $this->get(route('admin.channels.index'))->assertSee($channel['name'])->assertSee($channel['description']);
     }
 
     /** @test **/
@@ -60,7 +59,7 @@ class ChannelAdministrationTest extends TestCase
 
         $this->signInAdmin();
 
-        $channel = factory(Channel::class)->create();
+        $channel = Channel::factory()->create();
 
         $this->post(route('admin-archive.store', $channel));
 
@@ -74,7 +73,7 @@ class ChannelAdministrationTest extends TestCase
 
        $this->signInAdmin();
 
-        $channel = factory(Channel::class)->create(['archive' => true]);
+        $channel = Channel::factory()->create(['archive' => true]);
 
         $this->delete(route('archive-channel.destroy', $channel));
 
@@ -88,7 +87,7 @@ class ChannelAdministrationTest extends TestCase
 
         $this->signInAdmin();
 
-        $channel = factory(Channel::class)->create();
+        $channel = Channel::factory()->create();
 
         $this->patch("/admin/channels/{$channel->slug}", [
           'name' => 'PHP',
@@ -106,7 +105,7 @@ class ChannelAdministrationTest extends TestCase
     {
         $this->signInAdmin();
 
-        $channel = factory(Channel::class)->create(['name' => '']);
+        $channel = Channel::factory()->create(['name' => '']);
 
         $response = $this->post(route('admin.channels.store'), $channel->toArray());
 
@@ -118,7 +117,7 @@ class ChannelAdministrationTest extends TestCase
     {
         $this->signInAdmin();
 
-        $channel = factory(Channel::class)->create(['description' => '']);
+        $channel = Channel::factory()->create(['description' => '']);
 
         $response = $this->post(route('admin.channels.store'), $channel->toArray());
 

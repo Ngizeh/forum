@@ -24,9 +24,9 @@ class FavoritesTest extends TestCase
     {
         // $this->withoutExceptionHandling();
 
-        $this->be(factory(User::class)->create());
+        $this->be(User::factory()->create());
 
-        $reply = factory(Reply::class)->create();
+        $reply = Reply::factory()->create();
 
         $this->post("replies/{$reply->id}/favorites");
 
@@ -36,9 +36,9 @@ class FavoritesTest extends TestCase
     /** @test **/
     public function a_reply_can_be_unfavorited()
     {
-        $this->be(factory(User::class)->create());
+        $this->be(User::factory()->create());
 
-        $reply = factory(Reply::class)->create();
+        $reply = Reply::factory()->create();
 
         $reply->favorite();
 
@@ -53,9 +53,9 @@ class FavoritesTest extends TestCase
     {
         // $this->withoutExceptionHandling();
 
-        $this->be(factory(User::class)->create());
+        $this->be(User::factory()->create());
 
-        $reply = factory(Reply::class)->create();
+        $reply = Reply::factory()->create();
 
         try {
             $this->post("replies/{$reply->id}/favorites");

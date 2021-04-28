@@ -1,15 +1,34 @@
 <?php
 
-use Faker\Generator as Faker;
+namespace Database\Factories;
 
-$factory->define(App\Channel::class, function (Faker $faker) {
+use App\Channel;
+use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
-	$name = $faker->word;
+class ChannelFactory extends Factory
+{
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
+    protected $model = Channel::class;
 
-    return [
-        'name' => $name,
-        'slug' =>  str_slug($name),
-        'description' => $faker->paragraph,
-        'archive' => false
-    ];
-});
+    /**
+     * Define the model's default state.
+     *
+     * @return array
+     */
+    public function definition()
+    {
+    	$name = $this->faker->word;
+
+    	return [
+    		'name' => $name,
+    		'slug' =>  Str::slug($name),
+    		'description' => $this->faker->paragraph,
+    		'archive' => false
+    	];
+    }
+}

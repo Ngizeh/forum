@@ -27,7 +27,7 @@ class TrendingThreadsTest extends TestCase
    {
        $this->assertEmpty($this->trending->get());
 
-       $thread = factory(Thread::class)->create();
+       $thread = Thread::factory()->create();
 
        $this->call('get', $thread->path());
 
@@ -44,7 +44,7 @@ class TrendingThreadsTest extends TestCase
    {
        $this->assertEmpty($this->trending->get());
 
-       $thread = factory(Thread::class)->create();
+       $thread = Thread::factory()->create();
 
        $this->delete($thread->path());
 

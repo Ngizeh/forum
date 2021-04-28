@@ -1,21 +1,42 @@
 <?php
 
-use App\User;
-use App\Channel;
-use Faker\Generator as Faker;
+namespace Database\Factories;
 
-$factory->define(App\Thread::class, function (Faker $faker) {
-    $title = $faker->sentence;
-    return [
-        'user_id' => function(){
-        	return factory(User::class)->create()->id;
-        },
-        'channel_id' => function(){
-        	return factory(Channel::class)->create()->id;
-        },
-        'title' => $title,
-        'body' => $faker->paragraph,
-        'slug' => str_slug($title),
-        'locked' => false
-    ];
-});
+use App\Channel;
+use App\Thread;
+use App\User;
+use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
+
+class ThreadFactory extends Factory
+{
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
+    protected $model = Thread::class;
+
+    /**
+     * Define the model's default state.
+     *
+     * @return array
+     */
+    public function definition()
+    {
+    	$title = $this->faker->sentence;
+
+    	return [
+    		'user_id' => function(){
+    			return User::factory()->create()->id;
+    		},
+    		'channel_id' => function(){
+    			return Channel::factory()->create()->id;
+    		},
+    		'title' => $title,
+    		'body' => $this->faker->paragraph,
+    		'slug' => Str::slug($title),
+    		'locked' => false
+    	];
+    }
+}

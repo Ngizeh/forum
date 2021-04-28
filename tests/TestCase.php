@@ -19,7 +19,7 @@ abstract class TestCase extends BaseTestCase
 
       protected function signInAdmin($admin = null)
     {
-        $admin = $admin ?: factory(User::class)->states('admin')->create();
+        $admin = $admin ?: User::factory()->admin()->create();
 
         // config(['council.administrators' => [$admin->email]]);
 

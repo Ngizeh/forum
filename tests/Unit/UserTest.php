@@ -14,9 +14,9 @@ class UserTest extends TestCase
     /** @test **/
     public function user_can_see_their_last_reply()
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
 
-        $reply = factory(Reply::class)->create(['user_id' => $user->id]);
+        $reply = Reply::factory()->create(['user_id' => $user->id]);
 
         $this->assertEquals($reply->id, $user->lastReply->id);
     }
@@ -24,7 +24,7 @@ class UserTest extends TestCase
     /** @test **/
     public function it_can_determine_user_avatar()
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
 
         $this->assertEquals(asset('storage/avatars/default.png'), $user->avatar_path);
 

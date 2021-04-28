@@ -15,7 +15,7 @@
                     <h5>Posted by <a href="/profile/{{$thread->creator->name}}">{{ $thread->creator->name }}</a></h5>
                 </div>
                 <a href="{{ $thread->path() }}">
-                    {{ $thread->reply_count }} {{ str_plural('reply', $thread->reply_count)}}
+                    {{ $thread->reply_count }} {{ $thread->pluralized() }}
                 </a>
             </div>
         </div>

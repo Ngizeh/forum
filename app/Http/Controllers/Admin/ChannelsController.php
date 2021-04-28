@@ -6,6 +6,7 @@ use App\Channel;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Str;
 
 class ChannelsController extends Controller
 {
@@ -32,7 +33,7 @@ class ChannelsController extends Controller
 			'description' => 'required'
 		]);
 
-		$channel->create($data + [ 'slug' => str_slug($data['name'])]);
+		$channel->create($data + [ 'slug' => Str::slug($data['name'])]);
 
 		// Cache::forget('channels');
 
@@ -51,7 +52,7 @@ class ChannelsController extends Controller
 			'description' => 'required'
 		]);
 
-	    $channel->update($data + [ 'slug' => str_slug($data['name'])]);
+	    $channel->update($data + [ 'slug' => Str::slug($data['name'])]);
 
 	    if (request()->wantsJson()) {
 			return response($channel, 201);

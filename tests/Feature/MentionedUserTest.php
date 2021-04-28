@@ -16,15 +16,15 @@ class MentionedUserTest extends TestCase
     /** @test **/
     public function all_mentioned_in_the_reply_users_get_notified()
     {
-       $john = factory(User::class)->create(['name' => 'John']);
+       $john = User::factory()->create(['name' => 'John']);
 
        $this->be($john);
 
-       $thread = factory(Thread::class)->create();
+       $thread = Thread::factory()->create();
 
-       $jane = factory(User::class)->create(['name' => 'Jane']);
+       $jane = User::factory()->create(['name' => 'Jane']);
 
-       $reply = factory(Reply::class)->make([
+       $reply = Reply::factory()->make([
            'body' => 'Hi @John see what this says'
        ]);
 
@@ -37,9 +37,9 @@ class MentionedUserTest extends TestCase
     /** @test **/
     public function it_can_fetch_all_the_users_mentioned_starting_with_the_given_character()
     {
-       $janeDoe = factory(User::class)->create(['name' => 'JaneDoe']);
-       $johnDoe = factory(User::class)->create(['name' => 'JohnDoe']);
-       $janeDoe2 = factory(User::class)->create(['name' => 'JaneDoe2']);
+       $janeDoe = User::factory()->create(['name' => 'JaneDoe']);
+       $johnDoe = User::factory()->create(['name' => 'JohnDoe']);
+       $janeDoe2 = User::factory()->create(['name' => 'JaneDoe2']);
 
       $response =  $this->json('get', '/api/users', ['name' => 'JaneDoe']);
 

@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Http\Controllers\Controller;
 use App\Mail\PleaseConfirmYourEmail;
 use App\User;
-use App\Http\Controllers\Controller;
+use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Support\Str;
 use Ramsey\Uuid\Uuid;
 
 class RegisterController extends Controller
@@ -71,7 +72,7 @@ class RegisterController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
-            'confirmation_token' => str_limit(md5($data['email'].str_random()), 25, ''),
+            'confirmation_token' => Str::limit(md5($data['email'].Str::random()), 25, ''),
         ]);
     }
 

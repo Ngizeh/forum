@@ -11,14 +11,15 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 class BestReplyTest extends TestCase
 {
     use RefreshDatabase;
+
     /** @test **/
     public function a_thread_creator_may_mark_the_reply_as_the_best_reply()
     {
-       $this->be(factory(User::class)->create());
+       $this->be(User::factory()->create());
 
-       $thread = factory(Thread::class)->create(['user_id' => auth()->id()]);
+       $thread = Thread::factory()->create(['user_id' => auth()->id()]);
 
-       $replies = factory(Reply::class, 2)->create(['thread_id' => $thread->id]);
+       $replies = Reply::factory()->times(2)->create(['thread_id' => $thread->id]);
 
        $this->assertFalse($replies[1]->isBest());
 
@@ -31,11 +32,11 @@ class BestReplyTest extends TestCase
     public function on_the_owner_of_thread_should_only_make_the_thread_as_best()
     {
 
-       $this->be(factory(User::class)->create());
+       $this->be(User::factory()->create());
 
-       $thread = factory(Thread::class)->create();
+       $thread = Thread::factory()->create();
 
-       $replies = factory(Reply::class, 2)->create(['thread_id' => $thread->id]);
+       $replies = Reply::factory()->times(2)->create(['thread_id' => $thread->id]);
 
        $this->postJson(route('best-reply.store', [$replies[1]->id]))->assertStatus(403);
 
@@ -49,9 +50,9 @@ class BestReplyTest extends TestCase
     public function if_the_best_reply_is_deleted_the_thread_reply_should_reflect_that()
     {
 
-        $this->be(factory(User::class)->create());
+        $this->be(User::factory()->create());
 
-        $reply = factory(Reply::class)->create(['user_id' => auth()->id()]);
+        $reply = Reply::factory()->create(['user_id' => auth()->id()]);
 
         $reply->thread->markBestReply($reply);
 

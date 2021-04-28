@@ -12,22 +12,23 @@ class NotificationsTest extends TestCase
     use RefreshDatabase;
 
     protected $thread;
+
     protected $user;
 
     public function setUp() : void
     {
         parent::setUp();
 
-        $this->be(factory(User::class)->create());
+        $this->be(User::factory()->create());
 
         $this->user = auth()->user();
 
-        $this->thread = factory(Thread::class)->create(['user_id' => auth()->id()]);
+        $this->thread = Thread::factory()->create(['user_id' => auth()->id()]);
 
         $this->thread->subscribe();
 
         $this->thread->addReply([
-            'user_id' => factory(User::class)->create()->id,
+            'user_id' => User::factory()->create()->id,
             'body' => 'Some body'
         ]);
     }

@@ -17,8 +17,8 @@ class ChannelTest extends TestCase
    {
    		$this->withoutExceptionHandling();
 
-   		$channel = factory(Channel::class)->create();
-   		$thread = factory(Thread::class)->create(['channel_id' => $channel->id]);
+   		$channel = Channel::factory()->create();
+   		$thread = Thread::factory()->create(['channel_id' => $channel->id]);
 
    		$this->assertTrue($channel->threads->contains($thread));
    }
@@ -26,7 +26,7 @@ class ChannelTest extends TestCase
    /** @test **/
    public function channel_can_be_archived()
    {
-        $channel = factory(Channel::class)->create();
+        $channel = Channel::factory()->create();
 
         $channel->archive();
 
@@ -36,7 +36,7 @@ class ChannelTest extends TestCase
    /** @test **/
    public function channel_can_be_unarchived()
    {
-        $channel = factory(Channel::class)->create();
+        $channel = Channel::factory()->create();
 
         $channel->unarchive();
 

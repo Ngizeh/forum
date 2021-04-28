@@ -15,9 +15,9 @@ class SubscribeToThreadTest extends TestCase
     /** @test **/
     public function a_user_can_subscribe_to_a_thread()
     {
-        $this->be(factory(User::class)->create());
+        $this->be(User::factory()->create());
 
-        $thread = factory(Thread::class)->create(['user_id' => auth()->id()]);
+        $thread = Thread::factory()->create(['user_id' => auth()->id()]);
 
         $this->post($thread->path()."/subscriptions");
 
@@ -27,9 +27,9 @@ class SubscribeToThreadTest extends TestCase
     /** @test **/
     public function a_user_can_unsubscribe_from_a_thread()
     {
-        $this->be(factory(User::class)->create());
+        $this->be(User::factory()->create());
 
-        $thread = factory(Thread::class)->create(['user_id' => auth()->id()]);
+        $thread = Thread::factory()->create(['user_id' => auth()->id()]);
 
         $this->post($thread->path()."/subscriptions");
 

@@ -17,7 +17,7 @@ class ProfileUserTest extends TestCase
 	{
 		$this->withExceptionHandling();
 
-		$user = factory(User::class)->create();
+		$user = User::factory()->create();
 
 		$this->get("/profile/{$user->name}")->assertSee($user->name);
 	}
@@ -25,9 +25,9 @@ class ProfileUserTest extends TestCase
 	/** @test **/
 	public function on_profile_page_thread_can_be_seen_on_the_associated_user()
 	{
-		$this->be(factory(User::class)->create());
+		$this->be(User::factory()->create());
 
-		$thread = factory(Thread::class)->create(['user_id' => auth()->id()]);
+		$thread = Thread::factory()->create(['user_id' => auth()->id()]);
 
 		$this->get("/profile/". auth()->user()->name)
 		->assertSee($thread->body);

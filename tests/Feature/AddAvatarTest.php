@@ -24,7 +24,7 @@ class AddAvatarTest extends TestCase
 	/** @test **/
 	public function validate_the_avatar()
 	{
-		$this->be(factory(User::class)->create());
+		$this->be(User::factory()->create());
 
 		$response = $this->json('post', '/api/users/'.auth()->id().'/avatar', [
 			'avatar' => 'not-valid-avatar'
@@ -37,7 +37,7 @@ class AddAvatarTest extends TestCase
 	public function a_user_my_add_an_avatar_for_their_profile()
 	{
 
-		$this->be(factory(User::class)->create());
+		$this->be(User::factory()->create());
 
 		Storage::disk('public');
 

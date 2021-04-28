@@ -32,7 +32,7 @@ class RegistrationTest extends TestCase
     /** @test **/
     public function user_can_full_confirm_the_registration()
     {
-       $this->post(route('register'), [
+       $d = $this->post(route('register'), [
            'name' => 'John',
            'email' => 'john@mail.com',
            'password' => 'password',
@@ -42,6 +42,7 @@ class RegistrationTest extends TestCase
        $user = User::whereName('John')->first();
 
        $this->assertFalse($user->confirmed);
+
        $this->assertNotNull($user->confirmation_token);
 
        $this->get(route('confirm', ['token' => $user->confirmation_token]))->assertRedirect(route('threads'));

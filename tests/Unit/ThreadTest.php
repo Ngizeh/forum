@@ -23,7 +23,7 @@ class ThreadTest extends TestCase
     {
         parent::setUp();
 
-        $this->thread = factory(Thread::class)->create();
+        $this->thread = Thread::factory()->create();
     }
 
     /** @test **/
@@ -36,7 +36,7 @@ class ThreadTest extends TestCase
     /** @test **/
     public function it_has_as_reply()
     {
-        $replies = factory(Reply::class, 4)->create(['thread_id' => $this->thread->id]);
+        $replies = Reply::factory()->times(4)->create(['thread_id' => $this->thread->id]);
 
         //Use collection instance if the relation is of hasMany or BelongsToMany
         $this->assertInstanceOf(Collection::class, $this->thread->replies);
@@ -45,7 +45,7 @@ class ThreadTest extends TestCase
     /** @test */
     public function it_can_add_the_reply()
     {
-        $reply = factory(Reply::class)->raw();
+        $reply = Reply::factory()->raw();
 
         $this->thread->addReply($reply);
 
@@ -57,7 +57,7 @@ class ThreadTest extends TestCase
     {
         Notification::fake();
 
-        $this->be(factory(User::class)->create());
+        $this->be(User::factory()->create());
 
         $this->thread->subscribe()->addReply([
             'user_id' => 1,
@@ -83,9 +83,9 @@ class ThreadTest extends TestCase
     /** @test **/
     public function thread_can_be_subscribed_to()
     {
-        $this->be(factory(User::class)->create());
+        $this->be(User::factory()->create());
 
-        $thread = factory(Thread::class)->create(['user_id' => auth()->id()]);
+        $thread = Thread::factory()->create(['user_id' => auth()->id()]);
 
         $thread->subscribe();
 
@@ -98,9 +98,9 @@ class ThreadTest extends TestCase
     /** @test **/
     public function thread_can_be_unsubscribed_from()
     {
-        $this->be(factory(User::class)->create());
+        $this->be(User::factory()->create());
 
-        $thread = factory(Thread::class)->create(['user_id' => auth()->id()]);
+        $thread = Thread::factory()->create(['user_id' => auth()->id()]);
 
         $thread->unsubscribe();
 
@@ -113,9 +113,9 @@ class ThreadTest extends TestCase
     /** @test **/
     public function check_to_see_if_a_thread_is_subscribed_to()
     {
-        $this->be(factory(User::class)->create());
+        $this->be(User::factory()->create());
 
-        $thread = factory(Thread::class)->create(['user_id' => auth()->id()]);
+        $thread = Thread::factory()->create(['user_id' => auth()->id()]);
 
         $thread->subscribe();
 
@@ -125,7 +125,7 @@ class ThreadTest extends TestCase
     /** @test * */
     public function checks_for_the_unread_updates_on_the_thread_and_notify_the_user()
     {
-        $this->be(factory(User::class)->create());
+        $this->be(User::factory()->create());
 
         $this->assertTrue($this->thread->hasUpdatesFor(auth()->user()));
 
@@ -139,7 +139,7 @@ class ThreadTest extends TestCase
     public function a_thread_records_each_thread()
     {
 
-        $thread = factory(Thread::class)->make(['id' => 1]);
+        $thread = Thread::factory()->make(['id' => 1]);
 
         $thread->resetVisits();
 
@@ -155,7 +155,7 @@ class ThreadTest extends TestCase
     /** @test **/
     public function body_attribute_is_sanitized_automatically()
     {
-        $thread = factory(Thread::class)->make(['body' => '<script alert("bad")></script><p>This is good</p']);
+        $thread = Thread::factory()->make(['body' => '<script alert("bad")></script><p>This is good</p']);
 
         $this->assertEquals('<p>This is good</p>', $thread->body);
     }

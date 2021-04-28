@@ -17,9 +17,9 @@ class ActivityTest extends TestCase
     /** @test **/
     public function records_an_activity_when_a_thread_is_created()
     {
-        $this->be(factory(User::class)->create());
+        $this->be(User::factory()->create());
 
-        $thread = factory(Thread::class)->create();
+        $thread = Thread::factory()->create();
 
         $this->assertDatabaseHas('activities', [
             'subject_id' => $thread->id,
@@ -32,9 +32,9 @@ class ActivityTest extends TestCase
     /** @test **/
     public function records_an_activity_when_a_reply_is_created()
     {
-        $this->be(factory(User::class)->create());
+        $this->be(User::factory()->create());
 
-        $reply = factory(Reply::class)->create();
+        $reply = Reply::factory()->create();
 
         $this->assertDatabaseHas('activities', [
             'subject_id' => $reply->id,

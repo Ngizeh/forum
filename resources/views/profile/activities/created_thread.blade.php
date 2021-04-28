@@ -2,7 +2,7 @@
 @slot('heading')
 <h5>
 	{{ $profileUser->name }} published
-	<a href="{{ $activity->subject->path() }}">{{ str_limit($activity->subject->title, 20 )}}</a>
+	<a href="{{ $activity->subject->path() }}">{{ $activity->subject->excerpt() }}</a>
 </h5>
 <small>
 	{{ $activity->subject->created_at->diffForHumans() }}

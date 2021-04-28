@@ -15,7 +15,7 @@ class AdministratorTest extends TestCase
     /** @test **/
     public function admin_can_access_admin_section()
     {
-        $admin = factory(User::class)->states('admin')->create();
+        $admin = User::factory()->admin()->create();
 
         $this->actingAs($admin)
               ->get(route('admin.dashboard.index'))
@@ -25,7 +25,7 @@ class AdministratorTest extends TestCase
     /** @test **/
     public function non_admin_cannot_access_admin_section()
     {
-        $admin = factory(User::class)->create();
+        $admin = User::factory()->create();
 
         $this->actingAs($admin)
               ->get(route('admin.dashboard.index'))

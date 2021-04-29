@@ -9,7 +9,13 @@ class UserPolicy
 {
     use HandlesAuthorization;
 
-    public function update(User $user, User $signedUser)
+    /**
+     * Authorizes is the signed user can not editor a resource that does not belong to them
+     * @param User $user
+     * @param User $signedUser
+     * @return bool
+     */
+    public function update(User $user, User $signedUser): bool
     {
         return $signedUser->id === $user->id;
     }

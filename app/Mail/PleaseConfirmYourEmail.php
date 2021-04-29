@@ -20,7 +20,6 @@ class PleaseConfirmYourEmail extends Mailable implements  ShouldQueue
      */
     public function __construct($user)
     {
-        //
         $this->user = $user;
     }
 
@@ -29,7 +28,7 @@ class PleaseConfirmYourEmail extends Mailable implements  ShouldQueue
      *
      * @return $this
      */
-    public function build()
+    public function build(): PleaseConfirmYourEmail
     {
         return $this->markdown('emails.confirm');
     }

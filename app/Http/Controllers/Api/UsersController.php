@@ -17,6 +17,11 @@ class UsersController extends Controller
         $this->middleware('auth')->except('index');
     }
 
+    /**
+     * List the user by search name.
+     *
+     * @return mixed
+     */
     public function index()
     {
         $search = request('name');

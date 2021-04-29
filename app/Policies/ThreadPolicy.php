@@ -10,14 +10,25 @@ class ThreadPolicy
 {
     use HandlesAuthorization;
 
-    public function before($user)
+    /**
+     * @param $user
+     * @return bool
+     */
+    public function before($user): bool
     {
         if ($user->name == "Smith Doe") {
             return true;
         }
     }
 
-    public function update(User $user, Thread $thread)
+    /**
+     * Authorizes the user to make crud operation
+     *
+     * @param User $user
+     * @param Thread $thread
+     * @return bool
+     */
+    public function update(User $user, Thread $thread): bool
     {
         //Reason being you can do edit,update and delete
         return auth()->id() == $thread->user_id;

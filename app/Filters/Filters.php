@@ -2,20 +2,29 @@
 
 namespace App\Filters;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 
 abstract class Filters
 {
-	protected $request, $builder;
+	protected  Model $builder;
+    protected Request $request;
 
-	protected $filters = [];
+    protected array $filters = [];
 
+    /**
+     * Filters constructor.
+     * @param Request $request
+     */
 	public function __construct(Request $request)
 	{
 		$this->request = $request;
 	}
 
-
+    /**
+     * @param $builder
+     * @return mixed
+     */
 	public function apply($builder)
 	{
 		//revist needed
@@ -30,8 +39,11 @@ abstract class Filters
 		return $this->builder;
 	}
 
-	public function getFilters()
-	{
+    /**
+     * @return array]
+     */
+	public function getFilters(): array
+    {
 		return $this->request->only($this->filters);
 	}
 }

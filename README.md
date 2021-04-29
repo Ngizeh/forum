@@ -49,7 +49,7 @@ Install the project dependencies
 - Copy `.env.example` to `.env` and fill your values
 (`php artisan key:generate`, configure your database and run `php artisan migrate`)
 
-- Get your your mailtrap config setting at mailtrap in .env file
+- Get your mailtrap config settings at mailtrap in .env file
 
 ```
 

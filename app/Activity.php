@@ -4,14 +4,18 @@ namespace App;
 
 use App\RecordActivity;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Support\Facades\Gate;
 
 class Activity extends Model
 {
 	protected $guarded = [];
 
-	public function subject()
-	{
+    /**
+     * @return MorphTo
+     */
+	public function subject(): MorphTo
+    {
 		return $this->morphTo();
 	}
 

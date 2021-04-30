@@ -6,11 +6,15 @@ use Exception;
 
 class InvalidKeywords
 {
-    public  $invalidKeywords = [
+    public array $invalidKeywords = [
         'Google Customer Support'
     ];
 
 
+    /**
+     * @param $body
+     * @throws Exception
+     */
    public  function detect($body)
    {
        foreach ($this->invalidKeywords as $keyword){

@@ -6,6 +6,9 @@ use Exception;
 
 class KeyHeldDown
 {
+    /**
+     * @throws Exception
+     */
     public function detect($body)
     {
         if(preg_match('/(.)\\1{4,}/', $body)){

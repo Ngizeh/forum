@@ -2,20 +2,20 @@
 
 namespace App\Events;
 
-use Illuminate\Broadcasting\Channel;
+use App\Reply;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Broadcasting\PrivateChannel;
-use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Foundation\Events\Dispatchable;
-use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
 class ThreadReceivedNewReply
 {
     use Dispatchable, SerializesModels;
 
-    public $reply;
+    public Reply $reply;
 
+    /**
+     * ThreadReceivedNewReply constructor.
+     * @param $reply
+     */
     public function __construct($reply)
     {
         $this->reply = $reply;

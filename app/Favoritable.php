@@ -2,8 +2,14 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
+
 trait Favoritable
 {
+    /**
+     * Model Event
+     */
     public static function bootFavoritable()
     {
         static::deleting(function ($model) {
@@ -11,17 +17,28 @@ trait Favoritable
         });
     }
 
-    public function favorites()
+    /**
+     * @return MorphMany
+     */
+    public function favorites(): MorphMany
     {
         return $this->morphMany(Favorite::class, 'favoritable');
     }
 
-    public function getFavoritedCountAttribute()
+    /**
+     * Access Mutator for favorites count.
+     *
+     * @return int
+     */
+    public function getFavoritedCountAttribute(): int
     {
         return $this->favorites()->count();
     }
 
-    public function favorite()
+    /**
+     * @return Model
+     */
+    public function favorite(): Model
     {
         $attributes = ['user_id' => auth()->id()];
 
@@ -31,6 +48,9 @@ trait Favoritable
         }
     }
 
+    /**
+     * Mark a model to un favorite
+     */
     public function unFavorite()
     {
         $attributes = ['user_id' => auth()->id()];
@@ -40,11 +60,18 @@ trait Favoritable
         Reputation::loose(auth()->user(), Reputation::REPLY_FAVORITED);
     }
 
-    public function isFavorited()
+    /**
+     * @return bool
+     */
+    public function isFavorited(): bool
     {
         return !! $this->favorites->where('user_id', auth()->id())->count();
     }
 
+    /**
+     * Access mutator for a favorite attribute
+     * @return bool
+     */
     public function getIsFavoritedAttribute()
     {
         return $this->isFavorited();

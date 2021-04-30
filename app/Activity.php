@@ -4,17 +4,23 @@ namespace App;
 
 use App\RecordActivity;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Support\Facades\Gate;
 
 class Activity extends Model
 {
 	protected $guarded = [];
 
-	public function subject()
-	{
+	public function subject(): MorphTo
+    {
 		return $this->morphTo();
 	}
 
+    /**
+     * Loads a recorded activity.
+     * @param $user
+     * @return mixed
+     */
 	public static function feed($user)
 	{
 		return static::where('user_id', $user->id)

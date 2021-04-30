@@ -10,6 +10,10 @@ class ThreadPolicy
 {
     use HandlesAuthorization;
 
+    /**
+     * @param $user
+     * @return bool
+     */
     public function before($user)
     {
         if ($user->name == "Smith Doe") {
@@ -17,7 +21,14 @@ class ThreadPolicy
         }
     }
 
-    public function update(User $user, Thread $thread)
+    /**
+     * Authorization for updating ana deleting a resource.
+     *
+     * @param User $user
+     * @param Thread $thread
+     * @return bool
+     */
+    public function update(User $user, Thread $thread): bool
     {
         //Reason being you can do edit,update and delete
         return auth()->id() == $thread->user_id;

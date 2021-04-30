@@ -8,16 +8,35 @@ use App\Rules\Recaptcha;
 use App\Thread;
 use App\Trending;
 use Exception;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Foundation\Application;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Routing\Redirector;
+use Illuminate\Routing\ResponseFactory;
 use Illuminate\Support\Facades\Redis;
 
 class ThreadsController extends Controller
 {
+    /**
+     * RepliesController constructor.
+     * Authorization middleware.
+     * @return  void
+     */
     public function __construct()
     {
         $this->middleware('auth')->except(['index', 'show']);
     }
 
+    /**
+     * @param Channel $channel
+     * @param ThreadFilters $filters
+     * @param Trending $trending
+     * @return Application|Factory|View
+     */
     public function index(Channel $channel, ThreadFilters $filters, Trending $trending)
     {
         $threads = $this->getThreads($channel, $filters);
@@ -33,11 +52,20 @@ class ThreadsController extends Controller
     }
 
 
+    /**
+     * Show a form to create a resource.
+     *
+     * @return Application|Factory|View
+     */
     public function create()
     {
         return view('threads.create');
     }
 
+    /**
+     * @param Recaptcha $recaptcha
+     * @return Application|ResponseFactory|RedirectResponse|Response|Redirector
+     */
     public function store(Recaptcha $recaptcha)
     {
         request()->validate([
@@ -61,7 +89,14 @@ class ThreadsController extends Controller
         return redirect($thread->path())->with('flash', 'Your thread has be published');
     }
 
-
+    /**
+     * Show a specific resource.
+     *
+     * @param $channel
+     * @param Thread $thread
+     * @param Trending $trending
+     * @return Application|Factory|View
+     */
     public function show($channel, Thread $thread, Trending $trending)
     {
         if(auth()->check()){
@@ -76,17 +111,13 @@ class ThreadsController extends Controller
     }
 
 
-    public function edit(Thread $thread)
-    {
-        //
-    }
-
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Thread  $thread
-     * @return \Illuminate\Http\Response
+     * @param $channel
+     * @param Thread $thread
+     * @return void
+     * @throws AuthorizationException
      */
 
     public function update($channel, Thread $thread)
@@ -101,6 +132,13 @@ class ThreadsController extends Controller
         $thread->update($data);
     }
 
+    /**
+     * @param $channel
+     * @param \App\Thread $thread
+     * @param \App\Trending $trending
+     * @return Application|RedirectResponse|Redirector
+     * @throws AuthorizationException
+     */
     public function destroy($channel, Thread $thread, Trending $trending)
     {
         $this->authorize('update', $thread);
@@ -114,6 +152,13 @@ class ThreadsController extends Controller
         return redirect('/threads');
     }
 
+    /**
+     * Helper method for fetching trending threads.
+     *
+     * @param $channel
+     * @param $filters
+     * @return mixed
+     */
     public function getThreads($channel, $filters)
     {
         $threads = Thread::latest()->filter($filters);

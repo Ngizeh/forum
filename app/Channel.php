@@ -4,10 +4,12 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Channel extends Model
 {
 	use HasFactory;
+
     protected $guarded = [];
 
     protected $appends = ['ThreadsCount'];
@@ -19,25 +21,45 @@ class Channel extends Model
        return $query->where('archive', false)->get();
     }
 
-    public function getRouteKeyName()
+    /**
+     * Return the route as a string.
+     *
+     * @return string
+     */
+    public function getRouteKeyName(): string
     {
     	return 'slug';
     }
-    public function threads()
+
+    /**
+     * @return HasMany
+     */
+    public function threads(): HasMany
     {
     	return $this->hasMany(Thread::class);
     }
 
-    public function getThreadsCountAttribute()
+    /**
+     * @return int
+     */
+    public function getThreadsCountAttribute(): int
     {
        return $this->threads()->count();
     }
 
+    /**
+     * Updates the channel to be archived
+     * @return  void
+     */
     public function archive()
     {
         $this->update(['archive' => true]);
     }
 
+    /**
+     * Updates the channel to be un archived
+     * @return  void
+     */
     public function unarchive()
     {
         $this->update(['archive' => false]);

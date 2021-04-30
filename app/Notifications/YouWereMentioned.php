@@ -2,16 +2,15 @@
 
 namespace App\Notifications;
 
+use App\Reply;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Notifications\Messages\MailMessage;
 
 class YouWereMentioned extends Notification
 {
     use Queueable;
 
-    protected $reply;
+    protected Reply $reply;
 
     /**
      * Create a new notification instance.
@@ -55,7 +54,7 @@ class YouWereMentioned extends Notification
 //     * @return array
 //     */
 
-    public function toArray($notifiable)
+    public function toArray($notifiable): array
     {
         return [
             'message' => $this->reply->owner->name . ' mentioned you ' . $this->reply->thread->title,

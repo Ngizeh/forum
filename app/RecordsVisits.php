@@ -9,26 +9,38 @@ use Illuminate\Support\Facades\Redis;
 trait RecordsVisits
 {
 
-    public function resetVisits()
+    /**
+     * @return Thread
+     */
+    public function resetVisits(): Thread
     {
         Redis::del($this->visitCacheKey());
 
         return $this;
     }
 
-    public function recordVisits()
+    /**
+     * @return Thread
+     */
+    public function recordVisits(): Thread
     {
         Redis::incr($this->visitCacheKey());
 
         return $this;
     }
 
-    public function visits()
+    /**
+     * @return int
+     */
+    public function visits(): int
     {
         return Redis::get($this->visitCacheKey()) ?? 0;
     }
 
-    public function visitCacheKey()
+    /**
+     * @return string
+     */
+    public function visitCacheKey(): string
     {
         return "threads.{$this->id}.visits";
     }

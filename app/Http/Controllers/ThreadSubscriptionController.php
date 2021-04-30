@@ -7,13 +7,26 @@ use Illuminate\Http\Request;
 
 class ThreadSubscriptionController extends Controller
 {
-    public function store($channel, Thread $thread)
+    /**
+     * Creates a subscribed resource.
+     *
+     * @param $channel
+     * @param Thread $thread
+     * @return Thread
+     */
+    public function store($channel, Thread $thread): Thread
     {
         return $thread->subscribe(auth()->id());
     }
 
-    public function destroy($channel, Thread $thread)
+    /**
+     * Deletes a subscribed resource.
+     *
+     * @param $channel
+     * @param Thread $thread
+     */
+    public function destroy($channel, Thread $thread) : void
     {
-        return $thread->unsubscribe(auth()->id());
+        $thread->unsubscribe(auth()->id());
     }
 }

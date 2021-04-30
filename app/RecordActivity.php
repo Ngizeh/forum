@@ -2,8 +2,14 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\Relations\MorphMany;
+
 trait RecordActivity
 {
+
+    /**
+     * Model Event for recording an event
+     */
     protected static function bootRecordActivity()
     {
         if (auth()->guest()) {
@@ -20,7 +26,10 @@ trait RecordActivity
         });
     }
 
-    protected static function activityEvent()
+    /**
+     * @return string[]
+     */
+    protected static function activityEvent(): array
     {
         return ['created'];
     }
@@ -33,13 +42,19 @@ trait RecordActivity
             ]);
     }
 
-    protected function getActivityType($event)
+    /**
+     * @param $event
+     * @return string
+     */
+    protected function getActivityType($event): string
     {
         return $event.'_'.strtolower((new \ReflectionClass($this))->getShortName());
     }
 
-
-    public function activities()
+    /**
+     * @return MorphMany
+     */
+    public function activities(): MorphMany
     {
         return $this->morphMany(Activity::class, 'subject');
     }

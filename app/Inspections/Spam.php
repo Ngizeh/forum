@@ -6,12 +6,16 @@ namespace App\Inspections;
 
 class Spam
 {
-    public $inspections = [
+    public array $inspections = [
         InvalidKeywords::class,
         KeyHeldDown::class
     ];
 
-    public function detect($body)
+    /**
+     * @param $body
+     * @return bool
+     */
+    public function detect($body): bool
     {
         foreach ($this->inspections as $instance){
             app($instance)->detect($body);

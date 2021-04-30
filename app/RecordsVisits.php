@@ -9,10 +9,11 @@ use Illuminate\Support\Facades\Redis;
 trait RecordsVisits
 {
     /**
-     * Deletes Recorded Treading thread
-     * @return $this
+     * Deletes Recorded Treading thread.
+     *
+     * @return Thread
      */
-    public function resetVisits(): RecordsVisits
+    public function resetVisits(): Thread
     {
         Redis::del($this->visitCacheKey());
 
@@ -21,9 +22,10 @@ trait RecordsVisits
 
     /**
      * Adds the Recorded Treading Thread
-     * @return $this
+     *
+     * @return Thread
      */
-    public function recordVisits(): RecordsVisits
+    public function recordVisits(): Thread
     {
         Redis::incr($this->visitCacheKey());
 
@@ -35,13 +37,14 @@ trait RecordsVisits
      *
      * @return int
      */
-    public function visits()
+    public function visits(): int
     {
         return Redis::get($this->visitCacheKey()) ?? 0;
     }
 
     /**
-     * Sets the Cache key for Trending thread
+     * Sets the Cache key for Trending thread.
+     *
      * @return string
      */
     public function visitCacheKey(): string

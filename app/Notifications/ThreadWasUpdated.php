@@ -12,6 +12,12 @@ class ThreadWasUpdated extends Notification
 
     public $thread, $reply;
 
+    /**
+     * ThreadWasUpdated constructor.
+     * @param $thread
+     * @param $reply
+     * @return void
+     */
     public function __construct($thread, $reply)
     {
         $this->reply = $reply;
@@ -34,7 +40,7 @@ class ThreadWasUpdated extends Notification
      * @param  mixed  $notifiable
      * @return array
      */
-    public function toArray($notifiable)
+    public function toArray($notifiable): array
     {
         return [
             'message' => $this->reply->owner->name . 'replied to ' . $this->thread->title,

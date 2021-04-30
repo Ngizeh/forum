@@ -28,6 +28,8 @@ trait Favoritable
 
     /**
      * Model Attribute mutator
+     * Access Mutator for favorites count.
+     *
      * @return int
      */
     public function getFavoritedCountAttribute(): int
@@ -50,6 +52,7 @@ trait Favoritable
 
     /**
      * Marks resource as favorite
+     * Mark a model to un favorite
      */
     public function unFavorite()
     {
@@ -70,8 +73,8 @@ trait Favoritable
         return !! $this->favorites->where('user_id', auth()->id())->count();
     }
 
-    /**
-     * Model Mutator
+    /*
+     * Access mutator for a favorite attribute
      * @return bool
      */
     public function getIsFavoritedAttribute(): bool

@@ -7983,7 +7983,7 @@ setDocument = Sizzle.setDocument = function( node ) {
 			// on a disconnected node (IE 9)
 			support.disconnectedMatch = matches.call( el, "*" );
 
-			// This should fail with an exception
+			// This should fail with an e
 			// Gecko does not error, returns false instead
 			matches.call( el, "[s!='']:x" );
 			rbuggyMatches.push( "!=", pseudos );
@@ -10414,7 +10414,7 @@ jQuery.extend( {
 								process();
 							} else {
 
-								// Call an optional hook to record the stack, in case of exception
+								// Call an optional hook to record the stack, in case of e
 								// since it's otherwise lost when execution goes async
 								if ( jQuery.Deferred.getStackHook ) {
 									process.stackTrace = jQuery.Deferred.getStackHook();
@@ -10597,7 +10597,7 @@ jQuery.Deferred.exceptionHook = function( error, stack ) {
 	// Support: IE 8 - 9 only
 	// Console exists when dev tools are open, which can happen at any time
 	if ( window.console && window.console.warn && error && rerrorNames.test( error.name ) ) {
-		window.console.warn( "jQuery.Deferred exception: " + error.message, error.stack, stack );
+		window.console.warn( "jQuery.Deferred e: " + error.message, error.stack, stack );
 	}
 };
 
@@ -11070,7 +11070,7 @@ jQuery.fn.extend( {
 			// (and therefore has an element appears at this[ 0 ]) and the
 			// `value` parameter was not undefined. An empty jQuery object
 			// will result in `undefined` for elem = this[ 0 ] which will
-			// throw an exception if an attempt to read a data cache is made.
+			// throw an e if an attempt to read a data cache is made.
 			if ( elem && value === undefined ) {
 
 				// Attempt to get data from the cache
@@ -12886,7 +12886,7 @@ jQuery.fn.extend( {
 
 					elem = 0;
 
-				// If using innerHTML throws an exception, use the fallback method
+				// If using innerHTML throws an e, use the fallback method
 				} catch ( e ) {}
 			}
 
@@ -16083,7 +16083,7 @@ jQuery.extend( {
 			urlAnchor = document.createElement( "a" );
 
 			// Support: IE <=8 - 11, Edge 12 - 15
-			// IE throws exception on accessing the href property if url is malformed,
+			// IE throws e on accessing the href property if url is malformed,
 			// e.g. http://example.com:80x/
 			try {
 				urlAnchor.href = s.url;
@@ -16655,7 +16655,7 @@ jQuery.ajaxTransport( function( options ) {
 
 				try {
 
-					// Do send the request (this may raise an exception)
+					// Do send the request (this may raise an e)
 					xhr.send( options.hasContent && options.data || null );
 				} catch ( e ) {
 
@@ -20536,7 +20536,7 @@ module.exports = function xhrAdapter(config) {
 
       // The request errored out and we didn't get a response, this will be
       // handled by onerror instead
-      // With one exception: request that using file: protocol, most browsers
+      // With one e: request that using file: protocol, most browsers
       // will return status as 0 even though it's a successful request
       if (request.status === 0 && !(request.responseURL && request.responseURL.indexOf('file:') === 0)) {
         return;
@@ -42643,7 +42643,7 @@ window.flash = function (message) {
      * may be applied regardless of execution order. Methods like `_.ary` and
      * `_.rearg` modify function arguments, making the order in which they are
      * executed important, preventing the merging of metadata. However, we make
-     * an exception for a safe combined case where curried functions have `_.ary`
+     * an e for a safe combined case where curried functions have `_.ary`
      * and or `_.rearg` applied.
      *
      * @private

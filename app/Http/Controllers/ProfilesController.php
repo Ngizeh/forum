@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use App\User;
 use App\Activity;
-use Illuminate\Foundation\Application;
 use Illuminate\View\Factory;
 use Illuminate\View\View;
+use Illuminate\Contracts\Foundation\Application;
 
 class ProfilesController extends Controller
 {

@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 abstract class Filters
 {
-	protected  Model $builder;
+	protected  $builder;
     protected Request $request;
 
     protected array $filters = [];

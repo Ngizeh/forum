@@ -2,9 +2,6 @@
 
 namespace App;
 
-/**
- *
- */
 class Reputation
 {
     const THREAD_CREATED = 10;

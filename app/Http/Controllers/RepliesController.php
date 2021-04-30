@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ReplyRequest;
-use App\Notifications\YouWereMentioned;
 use App\Reply;
 use App\Thread;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -11,15 +10,14 @@ use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Pagination\LengthAwarePaginator;
+
 
 class RepliesController extends Controller
 {
     /**
      * RepliesController constructor.
-     * Authorization middleware
+     * Authorization middleware.
      * @return void
      */
     public function __construct()
@@ -40,12 +38,10 @@ class RepliesController extends Controller
     }
 
     /**
-     * Creates a new reply in the database
-     *
      * @param $channel
      * @param Thread $thread
      * @param ReplyRequest $request
-     * @return Model|Response
+     * @return Application|ResponseFactory|Model|Response
      */
     public function store($channel, Thread $thread, ReplyRequest $request)
     {
@@ -60,7 +56,7 @@ class RepliesController extends Controller
     }
 
     /**
-     * Updates a specified  Reply resource
+     * Updates a specified  Reply resource.
      *
      * @param Reply $reply
      * @throws AuthorizationException

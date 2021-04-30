@@ -15,7 +15,6 @@ class InvalidKeywords
     ];
 
     /**
-     * Find is the body is spam
      * @param $body
      * @throws Exception
      */

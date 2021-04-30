@@ -19,6 +19,11 @@ class Activity extends Model
 		return $this->morphTo();
 	}
 
+    /**
+     * Loads a recorded activity.
+     * @param $user
+     * @return mixed
+     */
 	public static function feed($user)
 	{
 		return static::where('user_id', $user->id)

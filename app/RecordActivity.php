@@ -7,8 +7,11 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 trait RecordActivity
 {
+
     /**
      * Model Event
+     *
+     * Model Event for recording an event
      */
     protected static function bootRecordActivity()
     {

@@ -22,6 +22,11 @@ class Thread extends Model
 
 	protected $casts = ['locked' => 'boolean'];
 
+    /**
+     * Returns the route as a string.
+     *
+     * @return string
+     */
 	public function getRouteKeyName(): string
     {
 		return 'slug';
@@ -42,6 +47,12 @@ class Thread extends Model
 		});
 	}
 
+
+    /**
+     * Model route path.
+     *
+     * @return string
+     */
 	public function path(): string
     {
 		return "/threads/{$this->channel->slug}/{$this->slug}";
@@ -82,7 +93,8 @@ class Thread extends Model
 	}
 
     /**
-     * Registers an event when a reply is added
+     * Registers an event when a reply is added.
+     *
      * @param $reply
      * @return Model
      */
@@ -117,16 +129,21 @@ class Thread extends Model
 	}
 
     /**
-     * Set the subscribed mutator
+     * Set the subscribed mutator.
+     *
      * @return bool
      */
-	public function getIsSubscribedToAttribute(): bool
-    {
+	public function getIsSubscribedToAttribute()
+	{
+
 		return $this->subscriptions()->where('user_id', auth()->id())->exists();
 	}
 
-	public function subscriptions()
-	{
+    /**
+     * @return HasMany
+     */
+	public function subscriptions(): HasMany
+    {
 		return $this->hasMany(ThreadSubscription::class);
 	}
 
@@ -146,6 +163,8 @@ class Thread extends Model
 	}
 
     /**
+     * Access mutator.
+     *
      * @param $value
      */
 	public function setSlugAttribute($value)
@@ -159,6 +178,8 @@ class Thread extends Model
 	}
 
     /**
+     * Marks the best reply and updates the Reputation counter.
+     *
      * @param Reply $reply
      */
 	public function markBestReply(Reply $reply)
@@ -168,6 +189,8 @@ class Thread extends Model
 	}
 
     /**
+     * Access modifier.
+     *
      * @param $body
      * @return mixed
      */
@@ -177,6 +200,8 @@ class Thread extends Model
 	}
 
     /**
+     * Access modifier.
+     *
      * @return string
      */
 	public function pluralized(): string
@@ -185,6 +210,8 @@ class Thread extends Model
 	}
 
     /**
+     * Access modifier.
+     *
      * @return string
      */
 	public function excerpt(): string

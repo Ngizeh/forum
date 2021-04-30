@@ -8,7 +8,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class ThreadSubscription extends Model
 {
-
+    /**
+     * No protection for model fields.
+     *
+     * @var array
+     */
     protected $guarded = [];
 
     /**

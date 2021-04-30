@@ -40,7 +40,7 @@ class User extends Authenticatable
     ];
 
     /**
-     * Cast the attribute to boolen
+     * Casts the keys in the database to boolean
      *
      * @var string[]
      */
@@ -49,7 +49,8 @@ class User extends Authenticatable
     ];
 
     /**
-     * Return the route a string slug
+     * Return the route a string slug.
+     * Model route path.
      *
      * @return string
      */
@@ -68,6 +69,7 @@ class User extends Authenticatable
 
     /**
      * Return the Admin of the App
+     * Gets the admin names.
      *
      * @return bool
      */
@@ -81,7 +83,7 @@ class User extends Authenticatable
      *
      * @return bool
      */
-    public function getIsAdminAttribute(): bool
+    public function getIsAdminAttribute()
     {
         return $this->isAdmin();
     }
@@ -105,13 +107,17 @@ class User extends Authenticatable
         return $this->hasOne(Reply::class)->latest();
     }
 
-    public function activity()
+    /**
+     * @return HasMany
+     */
+    public function activity(): HasMany
     {
         return $this->hasMany(Activity::class);
     }
 
     /**
      * Mark the Registered users confirmed Email.
+     * Updates the confirm email and the token
      *
      * @return void
      */
@@ -136,7 +142,11 @@ class User extends Authenticatable
         return cache()->forever($this->visitedThreadCacheKey($thread), Carbon::now());
     }
 
-    public function visitedThreadCacheKey($thread)
+    /**
+     * @param $thread
+     * @return string
+     */
+    public function visitedThreadCacheKey($thread): string
     {
         return sprintf("user.%s.visits.%s", $this->id, $thread->id);
     }

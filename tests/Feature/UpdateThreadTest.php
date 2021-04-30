@@ -36,8 +36,9 @@ class UpdateThreadTest extends TestCase
     }
 
     /** @test **/
-     public function a_thread_can_not_be_update_by_it_()
+     public function a_thread_can_not_be_update_by_it()
     {
+
         $thread = Thread::factory()->create(['user_id' => User::factory()->create()->id]);
 
         $this->patch($thread->path(), [

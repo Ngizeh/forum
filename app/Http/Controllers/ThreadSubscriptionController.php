@@ -9,6 +9,7 @@ class ThreadSubscriptionController extends Controller
 {
     /**
      * Create a resource for Thread subscription
+     *
      * @param $channel
      * @param Thread $thread
      * @return Thread
@@ -24,8 +25,8 @@ class ThreadSubscriptionController extends Controller
      * @param $channel
      * @param Thread $thread
      */
-    public function destroy($channel, Thread $thread)
+    public function destroy($channel, Thread $thread) : void
     {
-        return $thread->unsubscribe(auth()->id());
+        $thread->unsubscribe(auth()->id());
     }
 }

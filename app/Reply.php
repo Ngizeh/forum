@@ -13,6 +13,7 @@ class Reply extends Model
 	use Favoritable, RecordActivity, HasFactory;
 
 	protected $guarded  = [];
+
     /**
      * Eager Loading the Reply with owner and Favorites
      * @var string[]
@@ -27,6 +28,7 @@ class Reply extends Model
 
     /**
      * Model Event for Reputation
+     *
      */
 	protected static function boot()
 	{
@@ -52,6 +54,7 @@ class Reply extends Model
 	}
 
     /**
+     * Relationship
      * @return BelongsTo
      */
 	public function owner(): BelongsTo
@@ -60,6 +63,7 @@ class Reply extends Model
 	}
 
     /**
+     * Relationship
      * @return BelongsTo
      */
 	public function thread(): BelongsTo
@@ -69,6 +73,7 @@ class Reply extends Model
 
     /**
      * Created At mutator
+     *
      * @return mixed
      */
 	public function wasJustPublished()
@@ -78,6 +83,7 @@ class Reply extends Model
 
     /**
      * Sanitizes the body attribute
+     *
      * @param $body
      */
 	public function setBodyAttribute($body)
@@ -86,7 +92,7 @@ class Reply extends Model
 	}
 
     /**
-     * Gets the mentioned user appending the @ symbol infront
+     * Gets the mentioned user appending the @ symbol in front.
      * @return mixed
      */
 	public function mentionedUser()
@@ -106,7 +112,9 @@ class Reply extends Model
 	}
 
     /**
-     * Appends best attribute mutator
+     * Appends best attribute mutator.
+     * Access mutator.
+     *
      * @return bool
      */
 	public function getIsBestAttribute(): bool
@@ -116,6 +124,7 @@ class Reply extends Model
 
     /**
      * Makes sure the body is sanitize
+     *
      * @param $body
      * @return mixed
      */

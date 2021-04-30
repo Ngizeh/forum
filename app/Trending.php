@@ -18,6 +18,7 @@ class Trending
 
     /**
      * @param $thread
+     * @return void
      */
     public function push($thread)
     {
@@ -29,6 +30,7 @@ class Trending
 
     /**
      * @param $thread
+     * @return  void6
      */
     public function pop($thread)
     {
@@ -39,6 +41,7 @@ class Trending
     }
 
     /**
+     * Find the Application Environment6
      * @return string
      */
     public function cacheKey(): string
@@ -47,7 +50,8 @@ class Trending
     }
 
     /**
-     * Deletes Trending Thread
+     * Deletes the cached redis key.
+     *
      * @return void
      */
     public function reset()

@@ -7,24 +7,23 @@ use App\Filters\ThreadFilters;
 use App\Rules\Recaptcha;
 use App\Thread;
 use App\Trending;
-use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\Routing\ResponseFactory;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Redirector;
-use Illuminate\Support\Facades\Redis;
-use Illuminate\View\Factory;
-use Illuminate\View\View;
+
 
 class ThreadsController extends Controller
 {
     /**
      * ThreadsController constructor.
      * Authentication middleware
-     * @return void
+     * Authorization middleware.
+     * @return  void
      */
     public function __construct()
     {
@@ -53,12 +52,13 @@ class ThreadsController extends Controller
         ]);
     }
 
+
     /**
-     * Show a form to create thread
+     * Show a form to create a resource.
      *
      * @return Application|Factory|View
      */
-    public function create()
+    public function create(): Application|View|Factory
     {
         return view('threads.create');
     }
@@ -69,7 +69,7 @@ class ThreadsController extends Controller
      * @param Recaptcha $recaptcha
      * @return Application|ResponseFactory|RedirectResponse|Response|Redirector
      */
-    public function store(Recaptcha $recaptcha)
+    public function store(Recaptcha $recaptcha): Application|Response|Redirector|RedirectResponse|ResponseFactory
     {
         request()->validate([
             'title' => 'required|spamfree',
@@ -93,14 +93,14 @@ class ThreadsController extends Controller
     }
 
     /**
-     * Shows the a specified thread
+     * Shows the a specified thread.
      *
      * @param $channel
      * @param Thread $thread
      * @param Trending $trending
      * @return Application|Factory|View
      */
-    public function show($channel, Thread $thread, Trending $trending)
+    public function show($channel, Thread $thread, Trending $trending): Application|View|Factory
     {
         if(auth()->check()){
             auth()->user()->read($thread);
@@ -119,6 +119,7 @@ class ThreadsController extends Controller
      * @param $channel
      * @param Thread $thread
      * @throws AuthorizationException
+     * @return void
      */
     public function update($channel, Thread $thread)
     {
@@ -156,11 +157,13 @@ class ThreadsController extends Controller
 
     /**
      * Filters the threads for a given channel
+     * Helper method for fetching trending threads.
+     *
      * @param $channel
      * @param $filters
      * @return mixed
      */
-    private function getThreads($channel, $filters)
+    public function getThreads($channel, $filters): mixed
     {
         $threads = Thread::latest()->filter($filters);
 

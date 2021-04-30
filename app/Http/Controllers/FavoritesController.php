@@ -20,7 +20,7 @@ class FavoritesController extends Controller
     }
 
     /**
-     * Stores favorite reply resource
+     * Stores favorite reply resource.
      *
      * @param Reply $reply
      * @return RedirectResponse
@@ -33,7 +33,8 @@ class FavoritesController extends Controller
     }
 
     /**
-     * Marks reply un favorite
+     * Create a resource for a favorite
+     *6
      * @param Reply $reply
      */
     public function destroy(Reply $reply)

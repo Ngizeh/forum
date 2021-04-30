@@ -14,7 +14,7 @@ class ThreadPolicy
      * @param $user
      * @return bool
      */
-    public function before($user): bool
+    public function before($user)
     {
         if ($user->name == "Smith Doe") {
             return true;
@@ -22,13 +22,13 @@ class ThreadPolicy
     }
 
     /**
-     * Authorizes the user to make crud operation
+     * Authorization for updating ana deleting a resource.
      *
      * @param User $user
      * @param Thread $thread
      * @return bool
      */
-    public function update(User $user, Thread $thread): bool
+    public function update(User $user, Thread $thread)
     {
         //Reason being you can do edit,update and delete
         return auth()->id() == $thread->user_id;

@@ -2,6 +2,8 @@
 
 namespace App\Exceptions;
 
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Throwable;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
@@ -40,15 +42,15 @@ class Handler extends ExceptionHandler
     /**
      * Render an exception into an HTTP response.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Exception  $exception
-     * @return \Illuminate\Http\Response
+     * @param  Request  $request
+     * @param  \Throwable  $e
+     * @return Response
      */
-    public function render($request, Throwable $exception)
+    public function render($request, Throwable $e)
     {
-        if($exception instanceof ThrottleException){
-            return response($exception->getMessage(), 429);
+        if($e instanceof ThrottleException){
+            return response($e->getMessage(), 429);
         }
-        return parent::render($request, $exception);
+        return parent::render($request, $e);
     }
 }

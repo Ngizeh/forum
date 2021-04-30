@@ -11,6 +11,7 @@ class LockThreadController extends Controller
      * Marks a thread as locked, it can be updated
      *
      * @param Thread $thread
+     * @return void
      */
     public function store(Thread $thread)
     {

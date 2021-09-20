@@ -14,7 +14,7 @@
         "fideloper/proxy": "^4.0",
         "kitetail/zttp": "^0.6.0",
         "laravel/framework": "^8.0",
-        "laravel/tinker": "^2.5",
+        "laravel/tinker": "~2.5",
         "laravel/ui": "^3.2",
         "nikic/php-parser": "^4.10",
         "phpunit/phpunit": "^9.5",

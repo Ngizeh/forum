@@ -30,9 +30,8 @@ class RepliesController extends Controller
      *
      * @param $channel
      * @param Thread $thread
-     * @return LengthAwarePaginator
      */
-    public function index($channel, Thread $thread): LengthAwarePaginator
+    public function index($channel, Thread $thread)
     {
         return $thread->replies()->paginate(3);
     }
@@ -41,7 +40,7 @@ class RepliesController extends Controller
      * @param $channel
      * @param Thread $thread
      * @param ReplyRequest $request
-     * @return Application|ResponseFactory|Model|Response
+     * @return \Illuminate\Database\Eloquent\Model
      */
     public function store($channel, Thread $thread, ReplyRequest $request)
     {

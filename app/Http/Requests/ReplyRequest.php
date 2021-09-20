@@ -41,7 +41,7 @@ class ReplyRequest extends FormRequest
     public function rules()
     {
         return [
-            'body' => 'required|spamfree'
+            'body' => 'required|spamfree',
         ];
     }
 }
